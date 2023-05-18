@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\user;
 
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User; // Import model User
+use App\Models\guru; // Import model guru
 use Illuminate\Http\Request;
-use App\Models\guru;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreguruRequest;
 use App\Http\Requests\UpdateguruRequest;
 
@@ -40,31 +44,68 @@ class GuruController extends Controller
     // Fungsi untuk menambahkan data guru baru
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+
+        $validator = Validator::make($request->all(), [
             'nama' => 'required|string',
-            'NPP' => 'required|string',
-            'email' => 'required|email|unique:gurus,email',
-            'password' => 'required|string|min:6',
-            'jabatan' => 'required|in:guru,tenaga pendidik,admin',
-            'foto_profil' => 'nullable|image'
+            'NPP' => 'required|unique:gurus',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+            'jabatan' => 'required|in:guru,tenaga_pendidik',
         ]);
-        
-        $validatedData['password'] = bcrypt($validatedData['password']);
-
-        if ($request->hasFile('foto_profil')) {
-            $fotoProfil = $request->file('foto_profil')->store('public/foto_profil');
-            $validatedData['foto_profil'] = $fotoProfil;
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors(),
+            ], 400);
         }
-
-        
-
-        $guru = Guru::create($validatedData);
-
+    
+        $user = new User();
+        $user->name = $request->nama;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
+    
+        $guru = new Guru();
+        $guru->nama = $request->nama;
+        $guru->NPP = $request->NPP;
+        $guru->email = $request->email;
+        $guru->password = Hash::make($request->password);
+        $guru->jabatan = $request->jabatan;
+        $guru->user_id = $user->id;
+        $guru->save();
+    
         return response()->json([
             'status' => 'success',
             'message' => 'Data guru berhasil ditambahkan',
             'data' => $guru
         ], 201);
+
+        // $validatedData = $request->validate([
+        //     'nama' => 'required|string',
+        //     'NPP' => 'required|string',
+        //     'email' => 'required|email|unique:gurus,email',
+        //     'password' => 'required|string|min:6',
+        //     'jabatan' => 'required|in:guru,tenaga pendidik,admin',
+        //     'foto_profil' => 'nullable|image'
+        // ]);
+        
+        // $validatedData['password'] = bcrypt($validatedData['password']);
+
+        // if ($request->hasFile('foto_profil')) {
+        //     $fotoProfil = $request->file('foto_profil')->store('public/foto_profil');
+        //     $validatedData['foto_profil'] = $fotoProfil;
+        // }
+
+        
+
+        // $guru = Guru::create($validatedData);
+
+        // return response()->json([
+        //     'status' => 'success',
+        //     'message' => 'Data guru berhasil ditambahkan',
+        //     'data' => $guru
+        // ], 201);
     }
 
     // Fungsi untuk mengupdate data guru
@@ -84,7 +125,7 @@ class GuruController extends Controller
             'npp' => 'sometimes|required|string',
             'email' => 'sometimes|required|email|unique:gurus,email,' . $guru->id,
             'password' => 'sometimes|required|string|min:6',
-            'jabatan' => 'sometimes|required|in:guru,tenaga pendidik,admin',
+            'jabatan' => 'sometimes|required|in:guru,tenaga pendidik',
             'foto_profil' => 'sometimes|nullable|image'
         ]);
 
@@ -121,36 +162,5 @@ class GuruController extends Controller
     ]);
 }
 
-public function login(Request $request)
-{
-    $validator = Validator::make($request->all(), [
-        'email' => 'required|email',
-        'password' => 'required'
-    ]);
-
-    if ($validator->fails()) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Email dan password wajib diisi'
-        ], 400);
-    }
-
-    $guru = Guru::where('email', $request->email)->first();
-
-    if (!$guru || !Hash::check($request->password, $guru->password)) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Email atau password salah'
-        ], 401);
-    }
-
-    $token = $guru->createToken('guru')->plainTextToken;
-
-    return response()->json([
-        'success' => true,
-        'guru' => $guru,
-        'token' => $token
-    ], 200);
-}
 
 }

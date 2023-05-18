@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\GuruController;
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\user\GuruController;
+use App\Http\Controllers\user\Auth\userAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\admin\Auth\adminAuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,27 +16,38 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-Route::prefix('guru')->group(function () {
-    Route::get('/', [GuruController::class, 'index']);
-    Route::get('/{id}', [GuruController::class, 'show']);
-    Route::post('/', [GuruController::class, 'store']);
-    Route::put('/{id}', [GuruController::class, 'update']);
-    Route::delete('/{id}', [GuruController::class, 'destroy']);
+//Guru
+Route::group(['prefix' => 'guru'], function () {
+    Route::get('/guru', [GuruController::class, 'index']);
+    Route::get('/guru/{id}', [GuruController::class, 'show']);
+    Route::put('/guru/{id}', [GuruController::class, 'update']);
+    Route::delete('/guru/{id}', [GuruController::class, 'destroy']);
 });
 
 
-Route::post('auth/register',[AuthController::class,'register']);
-Route::post('auth/login', [AuthController::class,'login']);
+// Auth Guru/ Flutter
+Route::post('auth/register',[userAuthController::class,'register']);
+Route::post('auth/login', [userAuthController::class,'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::get('auth/profile', [AuthController::class, 'profile']);
-    Route::post('auth/logout', [AuthController::class, 'logout']);
+    Route::get('auth/profile', [userAuthController::class, 'profile']);
+    Route::post('auth/logout', [userAuthController::class, 'logout']);
 });
 
 
+// Auth Admin
+
+Route::middleware('auth:admin')->group(function () {
+    Route::get('/user/admin', [AdminDashboardController::class, 'getAdmin']);
+});
+Route::group(['prefix' => 'admin'], function () {
+    Route::post('/login', [adminAuthController::class, 'login'])->name('admin.login');
+    Route::post('/logout', [adminAuthController::class, 'logout'])->name('admin.logout');
+
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('admin.dashboard');
+    });
+});
 
 

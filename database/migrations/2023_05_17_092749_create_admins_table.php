@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('gurus', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('nama')->nullable()->default(null);
-            $table->string('NPP')->unique();
+        Schema::create('admins', function (Blueprint $table) {
+            $table->id();
+            $table->string('npp')->unique();
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('jabatan', ['guru', 'tenaga_pendidik']);
-            $table->string('foto_profil')->nullable();
+            $table->string('nama');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('gurus');
+        Schema::dropIfExists('admins');
     }
 };
