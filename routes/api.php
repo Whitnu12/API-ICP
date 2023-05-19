@@ -35,19 +35,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('auth/logout', [userAuthController::class, 'logout']);
 });
 
-
+Route::post('admin/register', [adminAuthController::class, 'register']);
 // Auth Admin
-
-Route::middleware('auth:admin')->group(function () {
-    Route::get('/user/admin', [AdminDashboardController::class, 'getAdmin']);
-});
-Route::group(['prefix' => 'admin'], function () {
-    Route::post('/login', [adminAuthController::class, 'login'])->name('admin.login');
-    Route::post('/logout', [adminAuthController::class, 'logout'])->name('admin.logout');
-
-    Route::middleware('auth:admin')->group(function () {
-        Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('admin.dashboard');
-    });
-});
 
 

@@ -18,22 +18,13 @@ Route::get('/', function () {
     return view('login');
 })->name('login');
 
-
+Route::get('/admin/dashboard', [adminAuthController::class, 'dashboard'])->name('admin.dashboard');
 Route::post('/admin/login', [adminAuthController::class, 'login'])->name('admin.login');
 Route::post('/admin/logout', [adminAuthController::class, 'logout'])->name('admin.logout');
 // Route::get('/admin/dashboard', [adminAuthController::class, 'dashboard'])->name('admin.dashboard');
-Route::view('/admin/dashboard', 'admin')->name('admin.dash');
-Route::view('admin/dashboard/home','home')->name('home');
-Route::view('admin/dashboard/guru','coba123')->name('guru');
 
-use App\Http\Controllers\admin\Auth\UserDashboardController;
+Route::view('/dashboard', 'admin/dashboard')->name('dashboard');
+Route::view('/dashboard/guru','admin/guru')->name('guru');
+Route::view('/dashboard/ptk','admin/ptk')->name('ptk');
 
-Route::get('/', function () {
-    return view('login');
-})->name('login');
 
-Route::post('/admin/login', [adminAuthController::class, 'login'])->name('admin.login');
-Route::post('/admin/logout', [adminAuthController::class, 'logout'])->name('admin.logout');
-Route::view('/admin/dashboard', 'admin')->name('admin.dash');
-Route::view('/admin/dashboard/home', 'home')->name('home');
-Route::view('/admin/dashboard/guru', 'coba123')->name('guru');
