@@ -19,10 +19,11 @@ use App\Http\Controllers\admin\Auth\adminAuthController;
 
 //Guru
 Route::group(['prefix' => 'guru'], function () {
-    Route::get('/guru', [GuruController::class, 'index']);
-    Route::get('/guru/{id}', [GuruController::class, 'show']);
-    Route::put('/guru/{id}', [GuruController::class, 'update']);
-    Route::delete('/guru/{id}', [GuruController::class, 'destroy']);
+    Route::get('/', [GuruController::class, 'index']);
+    Route::get('/{id}', [GuruController::class, 'show']);
+    Route::put('/{id}', [GuruController::class, 'update']);
+    Route::post('/register', [GuruController::class, 'store']);
+    Route::delete('{id}', [GuruController::class, 'destroy']);
 });
 
 

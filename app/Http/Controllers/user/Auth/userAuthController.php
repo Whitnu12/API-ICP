@@ -26,12 +26,12 @@ class userAuthController extends Controller
 
     $user = User::where('email', $req->email)->first();
     if (!$user) {
-        $this->response['message'] = 'Unauthorized';
+        $this->response['message'] = 'Email Salah!';
         return response()->json($this->response, 401);
     }
 
     if (!Hash::check($req->password, $user->password)) {
-        $this->response['message'] = 'Unauthorized';
+        $this->response['message'] = 'Password Salah!';
         return response()->json($this->response, 401);
     }
 
