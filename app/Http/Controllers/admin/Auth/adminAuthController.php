@@ -15,37 +15,6 @@ class adminAuthController extends Controller
         'data' => 'null',
     ];
 
-    public function dashboard(Request $request)
-    {
-        // Lakukan pengecekan apakah pengguna telah login sebagai admin
-        if (Auth::guard('admin')->check()) {
-            // Jika pengguna sudah login, tampilkan halaman dashboard
-            $admin = Auth::guard('admin')->user(); // Mendapatkan data admin yang sedang login
-            $viewData = [
-                'admin' => $admin,
-                'token' => $request->bearerToken() // Menyimpan token dari request ke dalam variabel $token
-            ];
-            
-            return view('admin/dashboard')->with($viewData);
-        } else {
-            // Jika pengguna belum login, redirect ke halaman login
-            return redirect()->route('login');
-        }
-    }
-
-    public function checkAdmin()
-    {
-        // Mengambil data admin yang sedang login
-        $admin = Auth::guard('admin')->user();
-
-        return response()->json([
-            'message' => 'success',
-            'data' => [
-                'admin' => $admin,
-            ],
-        ]);
-    }
-
     public function register(Request $request)
     {
         $request->validate([
@@ -62,10 +31,7 @@ class adminAuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $this->response['message'] = 'success';
-        $this->response['data'] = $admin;
-
-        return response()->json($this->response, 201);
+        return response()->json(['message' => 'success', 'data' => $admin], 201);
     }
 
     public function login(Request $request)
@@ -76,16 +42,8 @@ class adminAuthController extends Controller
             $admin = Auth::guard('admin')->user();
             $token = $admin->createToken('admin-token')->plainTextToken;
 
-            // Simpan data pengguna dalam session (opsional, sesuaikan dengan kebutuhan Anda)
-            session(['admin' => $admin]);
-
-            // Mengembalikan respons JSON dengan pesan "success" dan token
-            return response()->json([
-                'message' => 'success',
-                'token' => $token,
-            ], 200);
+            return response()->json(['message' => 'success', 'token' => $token], 200);
         } else {
-            // Autentikasi gagal, kembalikan respon error
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
     }
@@ -93,8 +51,7 @@ class adminAuthController extends Controller
     public function logout(Request $request)
     {
         Auth::guard('admin')->logout();
-        $this->response['message'] = 'success';
-        return redirect()->route('login');
-        return response()->json($this->response, 200);
+
+        return response()->json(['message' => 'success'], 200);
     }
 }

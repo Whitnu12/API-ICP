@@ -10,8 +10,15 @@ class guru extends Model
     use HasFactory;
     protected $fillable = ['nama', 'NPP', 'email', 'password', 'jabatan', 'foto_profil'];
 
+    protected $primaryKey = 'id_guru';
+
+    public function mataPelajarans()
+    {
+        return $this->hasMany(MataPelajaran::class, 'id_guru');
+    }
+    
     public function user()
-{
+    {
     return $this->belongsTo(User::class);
-}
+    }
 }

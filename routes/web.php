@@ -18,13 +18,15 @@ Route::get('/', function () {
     return view('login');
 })->name('login');
 
-Route::get('/admin/dashboard', [adminAuthController::class, 'dashboard'])->name('admin.dashboard');
-Route::post('/admin/login', [adminAuthController::class, 'login'])->name('admin.login');
-Route::post('/admin/logout', [adminAuthController::class, 'logout'])->name('admin.logout');
-// Route::get('/admin/dashboard', [adminAuthController::class, 'dashboard'])->name('admin.dashboard');
+Route::middleware('auth:admin')->group(function () {
+    Route::view('/dashboard', 'admin/dashboard')->name('dashboard');
+    Route::view('/dashboard/guru', 'admin/guru')->name('guru');
+    Route::view('/dashboard/ptk', 'admin/ptk')->name('ptk');
+    Route::view('/dashboard/matapelajaran', 'admin/mataPelajaran')->name('mapel');
+});
 
-Route::view('/dashboard', 'admin/dashboard')->name('dashboard');
-Route::view('/dashboard/guru','admin/guru')->name('guru');
-Route::view('/dashboard/ptk','admin/ptk')->name('ptk');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login');
+Route::post('/admin/register', [AdminAuthController::class, 'register'])->name('admin.register');
+Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
 

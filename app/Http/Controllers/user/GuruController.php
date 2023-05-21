@@ -24,7 +24,7 @@ class GuruController extends Controller
     }
 
     // Fungsi untuk menampilkan data guru berdasarkan ID
-    public function show($id)
+    public function cariGuru($id)
     {
         $guru = Guru::find($id);
 
@@ -42,7 +42,7 @@ class GuruController extends Controller
     }
 
     // Fungsi untuk menambahkan data guru baru
-    public function store(Request $request)
+    public function tambahGuru(Request $request)
     {
 
         $validator = Validator::make($request->all(), [
@@ -109,7 +109,7 @@ class GuruController extends Controller
     }
 
     // Fungsi untuk mengupdate data guru
-    public function update(Request $request, $id)
+    public function rubahGuru(Request $request, $id)
     {
         $guru = Guru::find($id);
 
@@ -143,7 +143,7 @@ class GuruController extends Controller
         ]);
     }
 
-    public function destroy($id)
+    public function hapusGuru($id)
 {
     $guru = Guru::find($id);
 

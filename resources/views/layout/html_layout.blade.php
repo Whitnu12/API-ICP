@@ -6,4 +6,5 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard - $name</title>
     @vite(['resources/css/app.css','resources/js/app.js'])
-</head>
+    <script src="https://kit.fontawesome.com/526e979df3.js" crossorigin="anonymous"></script></head>
+
