@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class kelas extends Model
 {
     use HasFactory;
-    protected $fillable = ['kelas'];
+    protected $fillable = ['nama_kelas'];
     protected $primaryKey = 'id_kelas';
 
     public function mataPelajarans()

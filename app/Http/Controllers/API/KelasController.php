@@ -11,13 +11,14 @@ class KelasController extends Controller
     public function index()
     {
         $kelas = Kelas::all();
-        return response()->json($kelas);
+        return response()->json(['message' => 'Data kelas berhasil diambil', 'data' => $kelas]);
+
     }
 
     public function show($id)
     {
         $kelas = Kelas::findOrFail($id);
-        return response()->json($kelas);
+        return response()->json(['message' => 'Data kelas berhasil diambil', 'data' => $kelas]);
     }
 
     public function store(Request $request)
@@ -27,7 +28,7 @@ class KelasController extends Controller
         ]);
 
         $kelas = Kelas::create($validatedData);
-        return response()->json($kelas, 201);
+        return response()->json(['message' => 'Data kelas berhasil ditambah', 'data' => $kelas],201);
     }
 
     public function update(Request $request, $id)
@@ -38,14 +39,14 @@ class KelasController extends Controller
 
         $kelas = Kelas::findOrFail($id);
         $kelas->update($validatedData);
-        return response()->json($kelas, 200);
+        return response()->json(['message' => 'Data kelas berhasil dirubah', 'data' => $kelas],200);
     }
 
     public function destroy($id)
     {
         $kelas = Kelas::findOrFail($id);
         $kelas->delete();
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Data kelas berhasil dihapus', 'data' => $kelas]);
     }
 
 }

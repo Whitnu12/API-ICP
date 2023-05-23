@@ -23,6 +23,8 @@ Route::middleware('auth:admin')->group(function () {
     Route::view('/dashboard/guru', 'admin/guru')->name('guru');
     Route::view('/dashboard/ptk', 'admin/ptk')->name('ptk');
     Route::view('/dashboard/matapelajaran', 'admin/mataPelajaran')->name('mapel');
+    Route::view('/dashboard/sekolah', 'admin/sekolah')->name('sekolah');
+    Route::view('/dashboard/laporan', 'admin/laporan')->name('laporan');
 });
 
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login');

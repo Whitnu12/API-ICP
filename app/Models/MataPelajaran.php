@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class MataPelajaran extends Model
 {
     use HasFactory;
-    protected $fillable = ['nama_mapel', 'jurusan', 'kelas'];
+    protected $table = 'mata_pelajarans';
+
+    protected $primaryKey = 'kode_mapel';
+
+    protected $fillable = ['nama_mapel', 'id_jurusan', 'id_kelas', 'id_guru'];
 
     public function jurusan()
     {
@@ -22,6 +26,7 @@ class MataPelajaran extends Model
 
     public function guru()
     {
-    return $this->belongsTo(Guru::class, 'id_guru', 'id_guru');
+        return $this->belongsTo(Guru::class, 'id_guru', 'id_guru');
     }
 }
+

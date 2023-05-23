@@ -24,10 +24,11 @@ use App\Http\Controllers\API\KelasController;
 //Guru
 Route::group(['prefix' => 'guru'], function () {
     Route::get('/', [GuruController::class, 'index']);
-    Route::get('/{id}', [GuruController::class, 'show']);
-    Route::put('/{id}', [GuruController::class, 'update']);
-    Route::post('/register', [GuruController::class, 'store']);
-    Route::delete('{id}', [GuruController::class, 'destroy']);
+    Route::get('/{id}', [GuruController::class, 'cariGuru']);
+    Route::put('/{id}', [GuruController::class, 'rubahGuru']);
+    Route::post('/register', [GuruController::class, 'tambahGuru']);
+    Route::delete('{id}', [GuruController::class, 'hapusGuru']);
+    Route::post('validate-password', [GuruController::class,'validatePassword']);
 });
 
 
@@ -55,11 +56,11 @@ Route::prefix('mata-pelajaran')->group(function(){
     });
 
 Route::prefix('jurusan')->group(function () {
-    Route::get('/', [JurusanController::class, 'index']);
-    Route::get('/{id}', [JurusanController::class, 'show']);
-    Route::post('/', [JurusanController::class, 'store']);
-    Route::put('/{id}', [JurusanController::class, 'update']);
-    Route::delete('/{id}', [JurusanController::class, 'destroy']);
+    Route::get('/', [JurusanController::class, 'tampil_jurusan']);
+    Route::get('/{id}', [JurusanController::class, 'cari_jurusan']);
+    Route::post('/', [JurusanController::class, 'tambah_jurusan']);
+    Route::put('/{id}', [JurusanController::class, 'rubah_jurusan']);
+    Route::delete('/{id}', [JurusanController::class, 'hapus_jurusan']);
 });
 
 Route::prefix('kelas')->group(function () {

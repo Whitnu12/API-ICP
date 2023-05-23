@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
 
@@ -17,21 +18,28 @@ class adminAuthController extends Controller
 
     public function register(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'npp' => 'required|unique:admins',
             'nama' => 'required',
             'email' => 'required|email|unique:admins',
             'password' => 'required|min:6',
         ]);
-
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors(),
+            ], 400);
+        }
+    
         $admin = Admin::create([
             'npp' => $request->npp,
             'nama' => $request->nama,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
-        return response()->json(['message' => 'success', 'data' => $admin], 201);
+    
+        return response()->json(['status' => 'success', 'message' => 'User registered successfully', 'data' => $admin], 201);
     }
 
     public function login(Request $request)

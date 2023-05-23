@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class guru extends Model
 {
     use HasFactory;
-    protected $fillable = ['nama', 'NPP', 'email', 'password', 'jabatan', 'foto_profil'];
+    protected $fillable = ['nama', 'npp', 'email', 'password', 'jabatan', 'foto_profil'];
 
     protected $primaryKey = 'id_guru';
 
@@ -17,8 +17,9 @@ class guru extends Model
         return $this->hasMany(MataPelajaran::class, 'id_guru');
     }
     
+
     public function user()
     {
-    return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
