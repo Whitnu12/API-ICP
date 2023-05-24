@@ -6,7 +6,7 @@
 @section('content')
 
 <body>
-<div class="container flex space-x-64">
+<div class="container flex space-x-32">
     <table id="guruTable" class="table-auto">
         <thead>
             <tr>

@@ -78,7 +78,7 @@ class adminMataPelajaranController extends Controller
         ]);
 
         $mataPelajaran->update($validatedData);
-        return response()->json($mataPelajaran);
+        return response()->json(['message' => 'berhasil dirubah', 'data' => $mataPelajaran]);
     }
 
     public function hapusMapel($id)

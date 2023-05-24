@@ -48,11 +48,6 @@ class JurusanController extends Controller
     return response()->json(['message' => 'Jurusan berhasil dihapus'], 204);
     }
 
-    public function getJurusans()
-    {
-        $jurusans = Jurusan::all();
-        return response()->json($jurusans);
-    }
 
     
 }

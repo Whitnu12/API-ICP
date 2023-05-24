@@ -13,13 +13,25 @@ function showAlert(message) {
 }
 
 // Event listener untuk menghandle submit form penambahan mata pelajaran
-function addMataPelajaran(data) {
+function addMataPelajaran() {
+    const namaMapel = document.getElementById("namaMapel").value;
+    const jurusan = document.getElementById("jurusan").value;
+    const kelas = document.getElementById("kelas").value;
+    const guru = document.getElementById("guru").value;
+
+    const mapelData = {
+        nama_mapel: namaMapel,
+        id_jurusan: jurusan,
+        id_kelas: kelas,
+        id_guru: guru,
+    };
+
     fetch("http://192.168.100.6/laravel-icp2/public/api/mata-pelajaran/add", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(mapelData),
     })
         .then((response) => {
             if (response.ok) {
@@ -48,24 +60,6 @@ function addMataPelajaran(data) {
         });
 }
 
-addMataPelajaranForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const namaMapel = document.getElementById("namaMapel").value;
-    const jurusan = document.getElementById("jurusan").value;
-    const kelas = document.getElementById("kelas").value;
-    const guru = document.getElementById("guru").value;
-
-    const newData = {
-        nama_mapel: namaMapel,
-        id_jurusan: jurusan,
-        id_kelas: kelas,
-        id_guru: guru,
-    };
-
-    addMataPelajaran(newData);
-    addMataPelajaranForm.reset();
-});
 // Fungsi untuk menghapus mata pelajaran
 function deleteMapel(id) {
     fetch(`http://192.168.100.6/laravel-icp2/public/api/mata-pelajaran/${id}`, {
@@ -92,40 +86,55 @@ function deleteMapel(id) {
 }
 
 //Fungsi untuk memperbarui mata pelajaran
-function updateMapel(id) {
-    const namaMapel = document.getElementById("nama_mapel-2").value;
-    const jurusan = document.getElementById("jurusan-2").value;
-    const kelas = document.getElementById("kelas-2").value;
+function updateMapel() {
+    const id = document.getElementById("id_2").value;
+    const namaMapel = document.getElementById("namaMapel_2").value;
+    const jurusan = document.getElementById("jurusan_2").value;
+    const kelas = document.getElementById("kelas_2").value;
+    const guru = document.getElementById("guru_2").value;
 
-    const data = {
-        nama_mapel: namaMapel,
-        id_jurusan: jurusan,
-        id_kelas: kelas,
-    };
+    // Prepare the request data
+    const data = new URLSearchParams();
+    // data.append("nama_mapel", namaMapel);
+    // data.append("id_jurusan", jurusan);
+    // data.append("id_kelas", kelas);
+    // data.append("id_guru", guru);
 
-    fetch(
-        `http://192.168.100.6/laravel-icp2/public/api/mata-pelajaran/update/${id}`,
-        {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        }
-    )
+    if (namaMapel !== "") {
+        data.append("nama_mapel", namaMapel);
+    }
+    if (jurusan !== "") {
+        data.append("id_jurusan", jurusan);
+    }
+    if (kelas !== "") {
+        data.append("id_kelas", kelas);
+    }
+    if (guru !== "") {
+        data.append("id_guru", guru);
+    }
+
+    // Send the request to the API
+    fetch(`http://192.168.100.6/laravel-icp2/public/api/mata-pelajaran/${id}`, {
+        method: "PUT",
+        body: data,
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    })
         .then((response) => {
             if (response.ok) {
-                // Tampilkan pesan sukses
+                // Handle success response
                 showAlert("Data berhasil diperbarui");
                 console.log("Data berhasil diperbarui");
+                getDataMataPelajaran();
             } else {
-                // Tampilkan pesan error
+                // Handle error response
                 showAlert("Gagal memperbarui data");
                 console.error("Gagal memperbarui data");
             }
         })
         .catch((error) => {
-            // Tampilkan pesan error
+            // Handle error
             showAlert("Terjadi kesalahan");
             console.error("Terjadi kesalahan:", error);
         });
@@ -206,6 +215,8 @@ function getDataMataPelajaran() {
                         mataPelajaran.kelas.id_kelas; // Menggunakan atribut id_kelas dari objek kelas
                     document.getElementById("id_2").value =
                         mataPelajaran.kode_mapel;
+                    document.getElementById("guru_2").value =
+                        mataPelajaran.id_guru;
                 });
                 updateCell.appendChild(updateButton);
                 row.appendChild(updateCell);
@@ -236,7 +247,6 @@ function populateJurusanDropdown() {
         .then((response) => response.json())
         .then((data) => {
             const dropdown = document.getElementById("jurusan");
-
             // Menghapus opsi sebelumnya
             dropdown.innerHTML = "";
 
@@ -317,12 +327,110 @@ function populateGuruDropdown() {
         });
 }
 
+function populateJurusan2Dropdown() {
+    // Ganti URL_API dengan URL API yang sesuai
+    fetch("http://192.168.100.6/laravel-icp2/public/api/jurusan")
+        .then((response) => response.json())
+        .then((data) => {
+            const dropdown = document.getElementById("jurusan_2");
+            // Menghapus opsi sebelumnya
+            dropdown.innerHTML = "";
+
+            // Menambahkan opsi "Pilih Jurusan"
+            const option = document.createElement("option");
+            option.value = "null";
+            option.text = "Pilih Jurusan";
+            dropdown.appendChild(option);
+
+            // Menambahkan opsi dari data API
+            data.data.forEach((jurusan) => {
+                const option = document.createElement("option");
+                option.value = jurusan.id_jurusan;
+                option.text = jurusan.nama_jurusan;
+                dropdown.appendChild(option);
+            });
+        })
+        .catch((error) => {
+            console.log("Terjadi kesalahan:", error);
+        });
+}
+
+function populateKelas2Dropdown() {
+    // Ganti URL_API dengan URL API yang sesuai
+    fetch("http://192.168.100.6/laravel-icp2/public/api/kelas")
+        .then((response) => response.json())
+        .then((data) => {
+            const dropdown = document.getElementById("kelas_2");
+
+            // Menghapus opsi sebelumnya
+            dropdown.innerHTML = "";
+
+            // Menambahkan opsi "Pilih kelas"
+            const option = document.createElement("option");
+            option.value = "null";
+            option.text = "Pilih kelas";
+            dropdown.appendChild(option);
+
+            // Menambahkan opsi dari data API
+            data.data.forEach((kelas) => {
+                const option = document.createElement("option");
+                option.value = kelas.id_kelas;
+                option.text = kelas.nama_kelas;
+                dropdown.appendChild(option);
+            });
+        })
+        .catch((error) => {
+            console.log("Terjadi kesalahan:", error);
+        });
+}
+
+function populateGuru2Dropdown() {
+    // Ganti URL_API dengan URL API yang sesuai
+    fetch("http://192.168.100.6/laravel-icp2/public/api/guru")
+        .then((response) => response.json())
+        .then((data) => {
+            const dropdown = document.getElementById("guru_2");
+
+            // Menghapus opsi sebelumnya
+            dropdown.innerHTML = "";
+
+            // Menambahkan opsi "Pilih Jurusan"
+            const option = document.createElement("option");
+            option.value = "null";
+            option.text = "Pilih Guru";
+            dropdown.appendChild(option);
+
+            // Menambahkan opsi dari data API
+            data.data.forEach((guru) => {
+                const option = document.createElement("option");
+                option.value = guru.id_guru;
+                option.text = guru.nama;
+                dropdown.appendChild(option);
+            });
+        })
+        .catch((error) => {
+            console.log("Terjadi kesalahan:", error);
+        });
+}
 // Memanggil fungsi untuk mendapatkan dan menampilkan data mata pelajaran saat halaman dimuat
 getDataMataPelajaran();
 populateKelasDropdown();
 populateJurusanDropdown();
 populateGuruDropdown();
 
-$(document).ready(function () {
-    $("#jurusan").chosen();
+populateKelas2Dropdown();
+populateJurusan2Dropdown();
+populateGuru2Dropdown();
+
+const form = document.getElementById("updateMataPelajaranForm");
+form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    updateMapel();
 });
+
+document
+    .getElementById("addMataPelajaranForm")
+    .addEventListener("submit", function (event) {
+        event.preventDefault();
+        addMataPelajaran();
+    });

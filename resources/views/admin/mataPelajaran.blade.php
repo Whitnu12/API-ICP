@@ -20,7 +20,7 @@
         </table>
 
         <div>
-            <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+            <div class="mb-4 border-b border-gray-200 dark:border-gray-700 ">
                 <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
                     <li class="mr-2" role="presentation">
                         <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Tambah +</button>
@@ -34,7 +34,7 @@
             <div id="myTabContent">
                 <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                    
-        <div class="bg-gray-100 ml-4 p-4 w-fit">
+        <div class="bg-gray-100 ml-4 p-4 ">
             <h2 class="text-lg font-bold"> Tambah Mata Pelajaran </h2>
             <form id="addMataPelajaranForm">
                 @csrf
@@ -45,8 +45,11 @@
                 
                   <div>
                     <label for="jurusan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan</label>
+                    {{-- <input list="jurusan_list" id="jurusan-list" name="jurusan-list" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> --}}
                     <select id="jurusan"  class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                      <option value="null">Pilih Jurusan</option>
+                      {{-- <datalist id="jurusan_list"> --}}
+                        <option value="null">Pilih Jurusan</option>
+                      {{-- </datalist> --}}
                     </select>
                   </div>
                 
@@ -73,7 +76,7 @@
                 <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
                     <div class="bg-gray-100 ml-4 p-4 w-fit">
                         <h2 class="text-lg font-bold"> Update Mata Pelajaran </h2>
-                        <form id="updateMataPelajaranForm" method="PUT" onsubmit="updateMapel(document.getElementById('id-2').value)">
+                        <form id="updateMataPelajaranForm" method="PUT">
                             @csrf
                             <div class="">
                                 <label for="id_2">ID</label>
@@ -101,7 +104,7 @@
                                   <option value="null">Pilih guru</option>
                                 </select>
                               </div>
-                                <button type="submit" id="updateButton"s class="bg-gray-300 px-10 py-2 mt-4 block">Update</button>
+                                <button type="submit" id="updateButton" onclick="updateMapel($id_2)" class="bg-gray-300 px-10 py-2 mt-4 block">Update</button>
                             </form>
                     </div>
                 </div>

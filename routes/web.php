@@ -25,6 +25,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::view('/dashboard/matapelajaran', 'admin/mataPelajaran')->name('mapel');
     Route::view('/dashboard/sekolah', 'admin/sekolah')->name('sekolah');
     Route::view('/dashboard/laporan', 'admin/laporan')->name('laporan');
+    Route::view('/dashboard/kelas', 'admin/kelas')->name('kelas');
 });
 
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login');
