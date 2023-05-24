@@ -25,6 +25,8 @@ class KelasController extends Controller
     {
         $validatedData = $request->validate([
             'nama_kelas' => 'required|unique:kelas,nama_kelas',
+            'id_jurusan' => 'required',
+            'jumlahMurid' => 'required',
         ]);
 
         $kelas = Kelas::create($validatedData);
@@ -35,6 +37,8 @@ class KelasController extends Controller
     {
         $validatedData = $request->validate([
             'nama_kelas' => 'required|unique:kelas,nama_kelas,' . $id,
+            'id_jurusan' => 'required|sometimes',
+            'jumlahMurid' => 'required|sometimes',
         ]);
 
         $kelas = Kelas::findOrFail($id);

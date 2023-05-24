@@ -14,7 +14,7 @@
                     <th class="tableCellAction" colspan="2">Action</th> 
                 </tr>
             </thead>
-            <tbody id="mataPelajaranBody" class="border">
+            <tbody id="mataPelajaranTableBody" class="border">
                 <!-- Data mata pelajaran akan ditambahkan di sini -->
             </tbody>
         </table>
@@ -45,24 +45,21 @@
                 
                   <div>
                     <label for="jurusan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan</label>
-                    {{-- <input list="jurusan_list" id="jurusan-list" name="jurusan-list" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> --}}
-                    <select id="jurusan"  class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                      {{-- <datalist id="jurusan_list"> --}}
+                    <select id="jurusan" style="width:100%;">
                         <option value="null">Pilih Jurusan</option>
-                      {{-- </datalist> --}}
                     </select>
                   </div>
                 
                   <div>
                     <label for="kelas" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kelas</label>
-                    <select id="kelas" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select id="kelas" style="width:100%;">
                       <option value="null">Pilih Kelas</option>
                     </select>
                   </div>
 
                   <div>
                     <label for="guru" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan</label>
-                    <select id="guru"  class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select id="guru"  style="width:100%;">
                       <option value="null">Pilih guru</option>
                     </select>
                   </div>
@@ -86,24 +83,26 @@
                                 <label for="nama_mapel_2">Nama Mata Pelajaran</label>
                                 <input type="text" id="namaMapel_2" name="namaMapel_2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                             </div>
-                            <div class="">
-                                <label for="jurusan_2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan</label>        
-                                <select id="jurusan_2" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option value="null" > Pilih Jurusan</option>
-                                </select>
-                            </div>
                             <div>
-                                <label for="kelas_2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kelas</label>                   
-                                <select id="kelas_2" class="chosen-select bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option value="null">Pilih kelas</option>
-                                  </select>             
+                              <label for="jurusan_2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan</label>
+                              <select id="jurusan_2" style="width:100%;">
+                                  <option value="null">Pilih Jurusan</option>
+                              </select>
                             </div>
+                          
                             <div>
-                                <label for="guru_2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan</label>
-                                <select id="guru_2"  class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                  <option value="null">Pilih guru</option>
-                                </select>
-                              </div>
+                              <label for="kelas_2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kelas</label>
+                              <select id="kelas_2" style="width:100%;">
+                                <option value="null">Pilih Kelas</option>
+                              </select>
+                            </div>
+          
+                            <div>
+                              <label for="guru_2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan</label>
+                              <select id="guru_2"  style="width:100%;">
+                                <option value="null">Pilih guru</option>
+                              </select>
+                            </div>
                                 <button type="submit" id="updateButton" onclick="updateMapel($id_2)" class="bg-gray-300 px-10 py-2 mt-4 block">Update</button>
                             </form>
                     </div>
@@ -113,5 +112,7 @@
 {{-- make tab --}}
 
 </div>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 @endsection

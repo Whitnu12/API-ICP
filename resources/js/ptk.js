@@ -80,7 +80,7 @@ function getDataGuru() {
                     updateButton.textContent = "Update";
                     updateButton.addEventListener("click", () => {
                         // Mengisi nilai form dengan data guru yang akan diperbarui
-                        document.getElementById("npp_2").value = guru.NPP;
+                        document.getElementById("npp_2").value = guru.npp;
                         document.getElementById("nama_2").value = guru.nama;
                         document.getElementById("email_2").value = guru.email;
                         document.getElementById("jabatan_2").value =
