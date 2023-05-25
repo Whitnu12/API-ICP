@@ -27,6 +27,7 @@ class KelasController extends Controller
             'nama_kelas' => 'required|unique:kelas,nama_kelas',
             'id_jurusan' => 'required',
             'jumlahMurid' => 'required',
+            'angkatan' => 'required',
         ]);
 
         $kelas = Kelas::create($validatedData);

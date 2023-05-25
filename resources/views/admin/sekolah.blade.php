@@ -1,4 +1,4 @@
 @extends('layout.admin_layout')
 @section('content')
-<h1>MAntap bro</h1>
+<h1>Konfigurasi jurusan disini</h1>
 @endsection

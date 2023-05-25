@@ -20,5 +20,9 @@ class jurusan extends Model
         return $this->hasMany(MataPelajaran::class, 'id_jurusan');
     }
 
+    public function kelas(){
+        return $this->hasMany(kelas::class, 'id_jurusan');
+    }
+
 
 }

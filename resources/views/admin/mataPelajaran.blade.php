@@ -1,3 +1,6 @@
+<head>
+  @vite(['resources/js/mapel.js'])
+</head>
 @extends('layout.admin_layout')
 @section('content')
 <body>
@@ -58,7 +61,7 @@
                   </div>
 
                   <div>
-                    <label for="guru" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan</label>
+                    <label for="guru" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pengajar</label>
                     <select id="guru"  style="width:100%;">
                       <option value="null">Pilih guru</option>
                     </select>
@@ -98,7 +101,7 @@
                             </div>
           
                             <div>
-                              <label for="guru_2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan</label>
+                              <label for="guru_2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pengajar</label>
                               <select id="guru_2"  style="width:100%;">
                                 <option value="null">Pilih guru</option>
                               </select>

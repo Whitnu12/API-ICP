@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard - </title>    
-    @vite(['resources/css/app.css','resources/js/app.js', 'resources/js/ptk.js', 'resources/js/mapel.js', ])
+    @vite(['resources/css/app.css','resources/js/app.js' ])
     <script src="https://kit.fontawesome.com/526e979df3.js" crossorigin="anonymous"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>

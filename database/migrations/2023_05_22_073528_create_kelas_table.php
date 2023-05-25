@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama_kelas')->unique();    
             $table->unsignedBigInteger('id_jurusan');
             $table->integer('jumlahMurid');
+            $table->string('angkatan');
             $table->foreign('id_jurusan')->references('id_jurusan')->on('jurusan');
             $table->timestamps();
         });
