@@ -32,8 +32,8 @@ class JurusanController extends Controller
 
     public function rubah_jurusan(Request $request, $id)
     {
-    $validatedData = $request->validate([
-        'nama_jurusan' => 'required|unique:jurusan,nama_jurusan,' . $id,
+         $validatedData = $request->validate([
+        'nama_jurusan' => 'required|unique:jurusan,nama_jurusan,' . $id . ',id_jurusan'
     ]);
 
     $jurusan = jurusan::findOrFail($id);

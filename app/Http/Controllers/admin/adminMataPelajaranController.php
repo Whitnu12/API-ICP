@@ -37,13 +37,8 @@ class adminMataPelajaranController extends Controller
                 'id_guru' => 'required|exists:gurus,id_guru',
             ]);
     
-            // Mendapatkan objek Jurusan berdasarkan ID
             $jurusan = Jurusan::findOrFail($validatedData['id_jurusan']);
-    
-            // Mendapatkan objek Guru berdasarkan ID
             $guru = Guru::findOrFail($validatedData['id_guru']);
-    
-            // Mendapatkan objek Kelas berdasarkan ID
             $kelas = Kelas::findOrFail($validatedData['id_kelas']);
     
             // Menambahkan data MataPelajaran

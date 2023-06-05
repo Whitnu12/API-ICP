@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\Auth\adminAuthController;
 use App\Http\Controllers\admin\adminMataPelajaranController;
 use App\Http\Controllers\API\JurusanController;
 use App\Http\Controllers\API\KelasController;
+use App\Http\Controllers\JadwalMengajarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,4 +70,12 @@ Route::prefix('kelas')->group(function () {
     Route::post('/', [KelasController::class, 'store']);
     Route::put('/{id}', [KelasController::class, 'update']);
     Route::delete('/{id}', [KelasController::class, 'destroy']);
+});
+
+Route::prefix('jadwal-mengajar')->group(function(){
+    Route::get('/', [JadwalMengajarController::class, 'index']);
+    Route::get('/{id}', [JadwalMengajarController::class, 'show']);
+    Route::post('/', [JadwalMengajarController::class, 'store']);
+    Route::put('/{id}', [JadwalMengajarController::class, 'update']);
+    Route::delete('/{id}', [JadwalMengajarController::class, 'destroy']);
 });

@@ -1,3 +1,17 @@
+function showAlert(message) {
+    const alertElement = document.getElementById("toast-alert");
+    const messageElement = document.getElementById("pesan");
+    messageElement.textContent = message;
+
+    alertElement.classList.remove("invisible");
+    alertElement.classList.add("visible");
+
+    setTimeout(() => {
+        alertElement.classList.remove("visible");
+        alertElement.classList.add("invisible");
+    }, 3000);
+}
+
 var dropdown = document.getElementById("tahunDropdown");
 
 // Inisialisasi array tahun
@@ -36,6 +50,50 @@ function tambahTahun() {
 // Memanggil fungsi populateDropdown() saat halaman dimuat
 populateDropdown();
 
+function addKelas() {
+    const namaKelas = document.getElementById("nama_kelas").value;
+    const jurusan = document.getElementById("jurusan").value;
+    const jumlah_murid = document.getElementById("jumlah_murid").value;
+    const angkatan = document.getElementById("tahunDropdown").value;
+
+    const kelasData = {
+        nama_kelas: namaKelas,
+        id_jurusan: jurusan,
+        jumlahMurid: jumlah_murid,
+        angkatan: angkatan,
+    };
+
+    fetch("http://192.168.100.6/laravel-icp2/public/api/kelas", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(kelasData),
+    })
+        .then((response) => {
+            if (response.ok) {
+                // Tampilkan pesan sukses
+                showAlert("kelas berhasil ditambahkan", "success");
+                console.log("kelas berhasil ditambahkan");
+                getDataKelas();
+            } else {
+                // Tangkap pesan error dari respons JSON jika ada
+                response.json().then((error) => {
+                    showAlert(
+                        "Gagal menambahkan kelas: " + error.message,
+                        "error"
+                    );
+                    console.error("Gagal menambahkan kelas:", error.message);
+                });
+            }
+        })
+        .catch((error) => {
+            // Tampilkan pesan error
+            showAlert("Terjadi kesalahan: " + error.message, "error");
+            console.error("Terjadi kesalahan:", error);
+        });
+}
+
 function fetchJurusanData(idJurusan, callback) {
     fetch(`http://192.168.100.6/laravel-icp2/public/api/jurusan/${idJurusan}`)
         .then((response) => response.json())
@@ -68,7 +126,6 @@ function renderKelasDataTable(data) {
 
     kelasData.forEach((kelas, index) => {
         const row = document.createElement("tr");
-
         const noCell = document.createElement("td");
         noCell.classList.add("tableCellid");
         noCell.textContent = index + 1;
@@ -96,7 +153,6 @@ function renderKelasDataTable(data) {
         const idJurusan = kelas.id_jurusan;
         const idJurusanCell = document.createElement("td");
         idJurusanCell.classList.add("tableCellMapel");
-        // idJurusanCell.textContent = idJurusan;
 
         // Mendapatkan nama jurusan berdasarkan ID
         fetchJurusanData(idJurusan, (jurusan) => {
@@ -106,23 +162,33 @@ function renderKelasDataTable(data) {
         });
         row.appendChild(idJurusanCell);
 
-        // Mendapatkan nama jurusan berdasarkan ID
-        // fetchJurusanData(idJurusan, (namaJurusan) => {
-        //     idJurusanCell.textContent = namaJurusan;
-        // });
-
         //tahun
         const tahun = document.createElement("td");
         tahun.classList.add("tableCellMapel");
         tahun.textContent = kelas.angkatan;
         row.appendChild(tahun);
 
-        //aksi
-        // const aksi = document.createElement("td");
-        // aksi.classList.add("tableCell");
-        // aksi.innerHTML = `<button class="btn btn-warning" onclick="editKelas(${kelas.id})">Edit</button>
-        // <button class="btn btn-danger" onclick="deleteKelas(${kelas.id})">Delete</button>`;
-        // row.appendChild(aksi);
+        const deleteCell = document.createElement("td");
+        deleteCell.classList.add("tableCellAction");
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", () => {
+            deleteMapel(mataPelajaran.kode_mapel);
+        });
+        deleteCell.appendChild(deleteButton);
+        row.appendChild(deleteCell);
+
+        // Kolom Action - Tombol Update
+        const updateCell = document.createElement("td");
+        updateCell.classList.add("tableCellAction");
+        const updateButton = document.createElement("button");
+        updateButton.textContent = "Update";
+        updateButton.addEventListener("click", () => {
+            // Mengisi nilai form dengan data mata pelajaran yang akan diperbarui
+            fillFormWithMataPelajaranData(mataPelajaran.kode_mapel);
+        });
+        updateCell.appendChild(updateButton);
+        row.appendChild(updateCell);
 
         table.appendChild(row);
     });
@@ -158,6 +224,13 @@ function populateJurusanDropdown() {
 
 getDataKelas();
 populateJurusanDropdown();
+
+document
+    .getElementById("tambahKelas")
+    .addEventListener("submit", function (event) {
+        event.preventDefault();
+        addKelas();
+    });
 
 $(document).ready(function () {
     $("#jurusan").select2();

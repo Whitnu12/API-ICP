@@ -4,9 +4,8 @@
 
 @extends('layout.admin_layout')
 @section('content')
-<h1>konfigurasi data kelas disini</h1>
 <body>
-<div class="container flex space-x-32">
+<div class="container flex space-x-16">
     <table id="kelasTable" class="table-auto">
         <thead>
             <tr>
@@ -30,7 +29,7 @@
                     <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Tambah +</button>
                 </li>
                 <li class="mr-2" role="presentation">
-                    <button class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Update (+)</button>
+                    <button class="inline-block p-4 border-b-2  rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Update (+)</button>
                 </li>
                 
             </ul>
@@ -43,11 +42,11 @@
             @csrf
             <div class="">
                 <label for="nama">Kelas </label>
-                <input type="text" id="nama" name="nama" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <input type="text" id="nama_kelas" name="nama_kelas" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
             <div class="">
-                <label for="NPP">Jumlah Murid</label>
-                <input type="text" id="NPP" name="NPP" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <label for="jumlah_murid">Jumlah Murid</label>
+                <input type="text" id="jumlah_murid" name="jumlah_murid" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
             <div>
                 <label for="jurusan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan</label>
@@ -55,7 +54,7 @@
                 </select>
               </div>
             <div class="">
-                <label for="NPP">Angkatan</label>
+                <label for="angkatan">Angkatan</label>
                 <select name="angkatan" id="tahunDropdown" style="width: 100%;">
                     <option value="null">Pilih Angkatan</option>
                 </select>            

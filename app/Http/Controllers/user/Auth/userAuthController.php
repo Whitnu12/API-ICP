@@ -18,7 +18,7 @@ class userAuthController extends Controller
     
 
     public function login(Request $req)
-{
+    {
     $req->validate([
         'email' => 'required|email',
         'password' => 'required|string|min:6',
