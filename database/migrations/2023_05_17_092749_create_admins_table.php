@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Admin;
 
 return new class extends Migration
 {
@@ -19,6 +20,13 @@ return new class extends Migration
             $table->string('nama');
             $table->timestamps();
         });
+
+        $admin = new Admin;
+        $admin->nama = 'admin';
+        $admin->npp = '00000001';
+        $admin->email = 'admin@gmail.com';
+        $admin->password = bcrypt('admin'); // Ganti 'password' dengan password yang diinginkan
+        $admin->save();
     }
 
     /**

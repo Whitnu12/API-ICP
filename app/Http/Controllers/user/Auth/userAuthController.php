@@ -19,30 +19,37 @@ class userAuthController extends Controller
 
     public function login(Request $req)
     {
-    $req->validate([
-        'email' => 'required|email',
-        'password' => 'required|string|min:6',
-    ]);
-
-    $user = User::where('email', $req->email)->first();
-    if (!$user) {
-        $this->response['message'] = 'Email Salah!';
-        return response()->json($this->response, 401);
-    }
-
-    if (!Hash::check($req->password, $user->password)) {
-        $this->response['message'] = 'Password Salah!';
-        return response()->json($this->response, 401);
-    }
-
-    $token = $user->createToken('')->plainTextToken;
-    $this->response['message'] = 'success';
-    $this->response['data'] = [
-        'user' => $user,
-        'token' => $token,
-    ];
-
-    return response()->json($this->response, 200);
+        $req->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
+        ]);
+    
+        $user = User::where('email', $req->email)->first();
+        if (!$user) {
+            $this->response['message'] = 'Email Salah!';
+            return response()->json($this->response, 401);
+        }
+    
+        if (!Hash::check($req->password, $user->password)) {
+            $this->response['message'] = 'Password Salah!';
+            return response()->json($this->response, 401);
+        }
+    
+        $guru = Guru::where('user_id', $user->id)->first();
+        if (!$guru) {
+            $this->response['message'] = 'Data Guru Tidak Ditemukan!';
+            return response()->json($this->response, 404);
+        }
+    
+        $token = $user->createToken('')->plainTextToken;
+        $this->response['message'] = 'success';
+        $this->response['data'] = [
+            'user' => $user,
+            'guru' => $guru,
+            'token' => $token,
+        ];
+    
+        return response()->json($this->response, 200);
     }
 
     public function logout(Request $req){

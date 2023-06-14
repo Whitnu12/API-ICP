@@ -1,5 +1,3 @@
-
-
 const tabElements = [
     {
         id: "profile",

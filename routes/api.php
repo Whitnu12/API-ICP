@@ -9,6 +9,7 @@ use App\Http\Controllers\admin\adminMataPelajaranController;
 use App\Http\Controllers\API\JurusanController;
 use App\Http\Controllers\API\KelasController;
 use App\Http\Controllers\JadwalMengajarController;
+use App\Http\Controllers\LaporanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,7 @@ Route::prefix('mata-pelajaran')->group(function(){
     Route::delete('{id}', [adminMataPelajaranController::class, 'hapusMapel']);
     });
 
+    //jurusan
 Route::prefix('jurusan')->group(function () {
     Route::get('/', [JurusanController::class, 'tampil_jurusan']);
     Route::get('/{id}', [JurusanController::class, 'cari_jurusan']);
@@ -63,7 +65,7 @@ Route::prefix('jurusan')->group(function () {
     Route::put('/{id}', [JurusanController::class, 'rubah_jurusan']);
     Route::delete('/{id}', [JurusanController::class, 'hapus_jurusan']);
 });
-
+    //kelas
 Route::prefix('kelas')->group(function () {
     Route::get('/', [KelasController::class, 'index']);
     Route::get('/{id}', [KelasController::class, 'show']);
@@ -72,6 +74,7 @@ Route::prefix('kelas')->group(function () {
     Route::delete('/{id}', [KelasController::class, 'destroy']);
 });
 
+    //jadwal mengajar   
 Route::prefix('jadwal-mengajar')->group(function(){
     Route::get('/', [JadwalMengajarController::class, 'index']);
     Route::get('/{id}', [JadwalMengajarController::class, 'show']);
@@ -79,3 +82,11 @@ Route::prefix('jadwal-mengajar')->group(function(){
     Route::put('/{id}', [JadwalMengajarController::class, 'update']);
     Route::delete('/{id}', [JadwalMengajarController::class, 'destroy']);
 });
+
+Route::prefix('laporan')->group(function(){
+    Route::get('/', [LaporanController::class, 'index']);
+    // Route::get('/{id}', [JadwalMengajarController::class, 'show']);
+    Route::post('/', [LaporanController::class, 'store']);
+
+});
+
