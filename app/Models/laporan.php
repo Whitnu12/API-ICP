@@ -17,12 +17,16 @@ class laporan extends Model
         'judul_laporan',
         'deskripsi_laporan',
         'tanggal',
-        'gambar',
-        'jenis_laporan_id',
+        'id_jenis',
     ];
 
     public function jenisLaporan()
     {
-        return $this->belongsTo(JenisLaporan::class);
+        return $this->belongsTo(JenisLaporan::class, 'id_jenis');
+    }
+
+    public function gambarLaporan()
+    {
+        return $this->hasMany(GambarLaporan::class, 'id_laporan');
     }
 }

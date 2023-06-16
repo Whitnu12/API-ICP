@@ -2,12 +2,13 @@
 
 use App\Http\Controllers\user\GuruController;
 use App\Http\Controllers\user\Auth\userAuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\Auth\adminAuthController;
 use App\Http\Controllers\admin\adminMataPelajaranController;
 use App\Http\Controllers\API\JurusanController;
 use App\Http\Controllers\API\KelasController;
+use App\Http\Controllers\GambarController;
+use App\Http\Controllers\API\MultipleUploadController;
 use App\Http\Controllers\JadwalMengajarController;
 use App\Http\Controllers\LaporanController;
 
@@ -83,10 +84,10 @@ Route::prefix('jadwal-mengajar')->group(function(){
     Route::delete('/{id}', [JadwalMengajarController::class, 'destroy']);
 });
 
-Route::prefix('laporan')->group(function(){
-    Route::get('/', [LaporanController::class, 'index']);
-    // Route::get('/{id}', [JadwalMengajarController::class, 'show']);
-    Route::post('/', [LaporanController::class, 'store']);
 
-});
+
+Route::post('multiple-upload-file', [GambarController::class, 'store']);
+Route::get('laporan/', [LaporanController::class, 'index']);
+Route::post('laporan/create', [LaporanController::class, 'store']);
+Route::get('laporan/{id}', [LaporanController::class, 'show']);
 

@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\gambar_laporan;
 use App\Models\laporan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+
 
 class LaporanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
         $laporan = Laporan::all();
@@ -20,38 +22,151 @@ class LaporanController extends Controller
         ]);
     }
 
+
+
+
     public function store(Request $request)
-    {
-         // Validasi input dari request
-    $request->validate([
-        'judul' => 'required',
-        'deskripsi' => 'required',
-        'jenis_laporan_id' => 'required|exists:jenis_laporan,id',
-        'gambar' => 'required|array|min:1|max:5',
-        'gambar.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+{
 
-    // Upload gambar-gambar
-    $gambarNames = [];
-    foreach ($request->file('gambar') as $gambar) {
-        $gambarName = time() . '_' . $gambar->getClientOriginalName();
-        $gambar->move(public_path('images'), $gambarName);
-        $gambarNames[] = $gambarName;
+    try {
+        // Define validation rules
+        $validator = Validator::make($request->all(), [
+            'judul_laporan' => 'required',
+            'tanggal' => 'required',
+            'deskripsi_laporan' => 'required',
+            'id_jenis' => 'required|exists:jenis_laporan,id_jenis',
+            'gambar' => 'required|array|min:1|max:5',
+            'gambar.*' => 'image|mimes:jpeg,png,jpg',
+        ]);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        // Buat laporan baru
+        $laporan = Laporan::create([
+            'judul_laporan' => $request->judul_laporan,
+            'deskripsi_laporan' => $request->deskripsi_laporan,
+            'tanggal' => $request->tanggal,
+            'id_jenis' => $request->id_jenis,
+        ]);
+
+        $gambarPaths = [];
+        // Upload gambar-gambar ke storage dan simpan informasi gambar ke database
+        foreach ($request->file('gambar') as $gambar) {
+            $gambarPath = $gambar->store('foto_kegiatan');
+
+            // Simpan informasi gambar ke database
+            $gambarLaporan = new gambar_laporan();
+            $gambarLaporan->name = $gambar->getClientOriginalName();
+            $gambarLaporan->path = $gambarPath;
+            $gambarLaporan->id_laporan = $laporan->id_laporan; // Gunakan ID laporan yang baru dibuat
+            $gambarLaporan->save();
+
+            $gambarPaths = $gambarPath;
+        }
+
+       $laporan->gambar = $gambarPaths;
+
+        return response()->json([
+            'message' => 'Laporan created successfully',
+            'data' => $laporan,
+        ], 201);
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Error creating laporan',
+            'error' => $e->getMessage(),
+        ], 500);
     }
+    // try {
+    //     // Define validation rules
+    //     $validator = Validator::make($request->all(), [
+    //         'judul_laporan' => 'required',
+    //         'tanggal' => 'required',
+    //         'deskripsi_laporan' => 'required',
+    //         'id_jenis' => 'required|exists:jenis_laporan,id_jenis',
+    //         'gambar'     => 'required|file|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    //     ]);
 
-    // Buat laporan baru
-    $laporan = Laporan::create([
-        'judul' => $request->judul,
-        'deskripsi' => $request->deskripsi,
-        'jenis_laporan_id' => $request->jenis_laporan_id,
-        'gambar' => $gambarNames,
-    ]);
+    //     // Check if validation fails
+    //     if ($validator->fails()) {
+    //         return response()->json($validator->errors(), 422);
+    //     }
+
+    //     // Buat laporan baru
+    //     $laporan = Laporan::create([
+    //         'judul_laporan' => $request->judul_laporan,
+    //         'deskripsi_laporan' => $request->deskripsi_laporan,
+    //         'tanggal' => $request->tanggal,
+    //         'id_jenis' => $request->id_jenis,
+    //     ]);
+
+    //     Upload gambar-gambar ke storage dan simpan informasi gambar ke database
+    //     $gambarPaths = [];
+    //     foreach ($request->file('gambar') as $gambar) {
+    //         $gambarPath = $gambar->store('foto_kegiatan');
+
+    //         // Simpan informasi gambar ke database
+    //         $gambarLaporan = new gambar_laporan();
+    //         $gambarLaporan->nama = $gambar->getClientOriginalName();
+    //         $gambarLaporan->path = $gambarPath;
+    //         $gambarLaporan->laporan_id = $laporan->id; // Gunakan ID laporan yang baru dibuat
+    //         $gambarLaporan->save();
+
+    //         $gambarPaths[] = $gambarPath;
+    //     }
+        
+    //     // foreach ($request->file('gambar') as $imagefile) {
+    //     //     $image = new gambar_laporan();
+    //     //     $path = $imagefile->store('/images/resource');
+    //     //     $image->path = $path;
+    //     //     $image ->name = $image->getClientOriginalName();
+    //     //     $image->laporan_id = $laporan->id;
+    //     //     $image->save();
+    //     //   }
+    //     // $image =[$image,path];
+    //     $laporan->save();
+
+    //     // $image = $request->file('gambar');
+    //     // $image->storeAs('public/foto_kegiatan', $image->hashName());
+
+    //     // //create post
+    //     // $post = gambar_laporan::create([
+    //     //     'path'     => $image->hashName(),
+    //     //     'name'     => $image->getClientOriginalName(),
+    //     //     'id_laporan'   => $laporan->id_laporan,
+    //     // ]);
+
+    //     // Update kolom 'gambar' pada laporan dengan array path gambar
+
+    //     return response()->json([
+    //         'message' => 'Laporan created successfully',
+    //         'data' => $laporan, $image,
+    //     ], 201);
+    // } catch (\Exception $e) {
+    //     return response()->json([
+    //         'message' => 'Error creating laporan',
+    //         'error' => $e->getMessage(),
+    //     ], 500);
+    // }
+}
+
+
+public function show($id)
+{
+    $laporan = laporan::findOrFail($id);
+    $gambar = gambar_laporan::where('id_laporan', $laporan->id_laporan)->get();
 
     return response()->json([
-        'message' => 'Laporan created successfully',
+        'message' => 'Success',
         'data' => $laporan,
-    ], 201);
-    }
-
-    
+        'gambar' => $gambar,
+    ]);
 }
+
+}
+     
+    
+    
+

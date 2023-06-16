@@ -15,12 +15,10 @@ return new class extends Migration
             $table->id('id_laporan');
             $table->string('judul_laporan');
             $table->string('deskripsi_laporan');
-            $table->date('tanggal');
-            $table->string('gambar');
-            $table->unsignedBigInteger('jenis_laporan_id');
+            $table->string('tanggal');
+            $table->unsignedBigInteger('id_jenis');
             $table->timestamps();
-
-            $table->foreign('jenis_laporan_id')->references('id_jenis')->on('jenis_laporan');
+            $table->foreign('id_jenis')->references('id_jenis')->on('jenis_laporan');
         });
        
     }
@@ -31,5 +29,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('laporans');
+        
     }
 };
