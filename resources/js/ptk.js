@@ -12,8 +12,13 @@ function showAlert(message) {
     }, 3000);
 }
 
+function getApiUrl(endpoint) {
+    const apiUrl = "https://managementservice-smkn1kobi.my.id/api/";
+    return apiUrl + endpoint;
+}
+
 function getDataGuru() {
-    fetch("http://192.168.100.6/laravel-icp2/public/api/guru")
+    fetch(getApiUrl("guru"))
         .then((response) => response.json())
         .then((data) => {
             if (data && data.status === "success" && Array.isArray(data.data)) {
@@ -120,7 +125,7 @@ function tambahGuru() {
         password: password,
     };
 
-    fetch("http://192.168.100.6/laravel-icp2/public/api/guru/register", {
+    fetch(getApiUrl("guru/register"), {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -154,7 +159,7 @@ document
     });
 
 function hapusGuru(id) {
-    fetch(`http://192.168.100.6/laravel-icp2/public/api/guru/${id}`, {
+    fetch(getApiUrl(`guru/${id}`), {
         method: "DELETE",
     })
         .then((response) => response.json())
@@ -200,7 +205,7 @@ function rubahGuru() {
     }
 
     // Send the request to the API
-    fetch(`http://192.168.100.6/laravel-icp2/public/api/guru/${id}`, {
+    fetch(getApiUrl(`guru/${id}`), {
         method: "PUT",
         body: data,
         headers: {

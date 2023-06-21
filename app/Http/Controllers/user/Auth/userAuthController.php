@@ -40,12 +40,14 @@ class userAuthController extends Controller
             $this->response['message'] = 'Data Guru Tidak Ditemukan!';
             return response()->json($this->response, 404);
         }
+
+        $guruJabatan = $guru->jabatan;
     
         $token = $user->createToken('')->plainTextToken;
         $this->response['message'] = 'success';
         $this->response['data'] = [
             'user' => $user,
-            'guru' => $guru,
+            'jabatan' => $guruJabatan,
             'token' => $token,
         ];
     

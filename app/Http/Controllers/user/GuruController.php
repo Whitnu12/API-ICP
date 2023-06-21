@@ -97,7 +97,8 @@ class GuruController extends Controller
         $validator = Validator::make($request->all(), [
             'nama' => 'sometimes|required|string',
             'npp' => 'sometimes|required|string',
-            'email' => 'sometimes|required|email|unique:users,email,' . $guru->user->id,            
+            'email' => 'sometimes|required|email|unique:users,email,' . $guru->user->id,          
+            'jabatan' => 'sometimes|required|in:guru,tenaga_kependidikan',  
             'password_lama' => 'required',
             'password_baru' => 'sometimes|required|min:6',
         ]);
@@ -120,6 +121,7 @@ class GuruController extends Controller
         // Update data guru
         $guru->nama = $request->nama ?? $guru->nama;
         $guru->npp = $request->npp ?? $guru->npp;
+        $guru->jabatan = $request->jabatan ?? $guru->jabatan;
         $guru->email = $request->email ?? $guru->email;
     
         if ($request->has('password_baru')) {

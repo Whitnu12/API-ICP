@@ -92,4 +92,5 @@
                 the content visibility and styling.</p>
         </div>
     </div>
+
 @endsection

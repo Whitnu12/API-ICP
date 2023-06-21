@@ -12,6 +12,11 @@ function showAlert(message) {
     }, 3000);
 }
 
+function getApiUrl(endpoint) {
+    const apiUrl = "https://managementservice-smkn1kobi.my.id/api/";
+    return apiUrl + endpoint;
+}
+
 // Event listener untuk menghandle submit form penambahan mata pelajaran
 function addMataPelajaran() {
     const namaMapel = document.getElementById("namaMapel").value;
@@ -26,7 +31,7 @@ function addMataPelajaran() {
         id_guru: guru,
     };
 
-    fetch("http://192.168.100.6/laravel-icp2/public/api/mata-pelajaran/add", {
+    fetch(getApiUrl("mata-pelajaran/add"), {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -62,7 +67,7 @@ function addMataPelajaran() {
 
 // Fungsi untuk menghapus mata pelajaran
 function deleteMapel(id) {
-    fetch(`http://192.168.100.6/laravel-icp2/public/api/mata-pelajaran/${id}`, {
+    fetch(getApiUrl(`mata-pelajaran/${id}`), {
         method: "DELETE",
         headers: {},
     })
@@ -114,7 +119,7 @@ function updateMapel() {
     }
 
     // Send the request to the API
-    fetch(`http://192.168.100.6/laravel-icp2/public/api/mata-pelajaran/${id}`, {
+    fetch(getApiUrl(`mata-pelajaran/${id}`), {
         method: "PUT",
         body: data,
         headers: {
@@ -143,7 +148,7 @@ function updateMapel() {
 let mataPelajaranData = [];
 
 function getDataMataPelajaran() {
-    fetch("http://192.168.100.6/laravel-icp2/public/api/mata-pelajaran")
+    fetch(getApiUrl("mata-pelajaran"))
         .then((response) => response.json())
         .then((data) => {
             mataPelajaranData = data;
@@ -366,7 +371,7 @@ function fillFormWithMataPelajaranData(kodeMapel) {
 
 function populateJurusanDropdown() {
     // Ganti URL_API dengan URL API yang sesuai
-    fetch("http://192.168.100.6/laravel-icp2/public/api/jurusan")
+    fetch(getApiUrl("jurusan"))
         .then((response) => response.json())
         .then((data) => {
             const dropdown = document.getElementById("jurusan");
@@ -394,7 +399,7 @@ function populateJurusanDropdown() {
 
 function populateKelasDropdown() {
     // Ganti URL_API dengan URL API yang sesuai
-    fetch("http://192.168.100.6/laravel-icp2/public/api/kelas")
+    fetch(getApiUrl("kelas"))
         .then((response) => response.json())
         .then((data) => {
             const dropdown = document.getElementById("kelas");
@@ -423,7 +428,7 @@ function populateKelasDropdown() {
 
 function populateGuruDropdown() {
     // Ganti URL_API dengan URL API yang sesuai
-    fetch("http://192.168.100.6/laravel-icp2/public/api/guru")
+    fetch(getApiUrl("guru"))
         .then((response) => response.json())
         .then((data) => {
             const dropdown = document.getElementById("guru");
@@ -452,7 +457,7 @@ function populateGuruDropdown() {
 
 function populateJurusan2Dropdown() {
     // Ganti URL_API dengan URL API yang sesuai
-    fetch("http://192.168.100.6/laravel-icp2/public/api/jurusan")
+    fetch(getApiUrl("jurusan"))
         .then((response) => response.json())
         .then((data) => {
             const dropdown = document.getElementById("jurusan_2");
@@ -480,7 +485,7 @@ function populateJurusan2Dropdown() {
 
 function populateKelas2Dropdown() {
     // Ganti URL_API dengan URL API yang sesuai
-    fetch("http://192.168.100.6/laravel-icp2/public/api/kelas")
+    fetch(getApiUrl("kelas"))
         .then((response) => response.json())
         .then((data) => {
             const dropdown = document.getElementById("kelas_2");
@@ -509,7 +514,7 @@ function populateKelas2Dropdown() {
 
 function populateGuru2Dropdown() {
     // Ganti URL_API dengan URL API yang sesuai
-    fetch("http://192.168.100.6/laravel-icp2/public/api/guru")
+    fetch(getApiUrl("guru"))
         .then((response) => response.json())
         .then((data) => {
             const dropdown = document.getElementById("guru_2");

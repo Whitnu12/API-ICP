@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\JenisLaporan;
+use App\Models\gambar_laporan;
 
 class laporan extends Model
 {
@@ -18,6 +19,7 @@ class laporan extends Model
         'deskripsi_laporan',
         'tanggal',
         'id_jenis',
+        'id_guru',
     ];
 
     public function jenisLaporan()
@@ -27,6 +29,10 @@ class laporan extends Model
 
     public function gambarLaporan()
     {
-        return $this->hasMany(GambarLaporan::class, 'id_laporan');
+        return $this->hasMany(gambar_laporan::class, 'id_laporan');
+    }
+
+    public function guru(){
+        return $this->belongsTo(guru::class, 'id_guru' , 'id_guru');
     }
 }

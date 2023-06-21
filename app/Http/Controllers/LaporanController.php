@@ -32,6 +32,7 @@ class LaporanController extends Controller
         // Define validation rules
         $validator = Validator::make($request->all(), [
             'judul_laporan' => 'required',
+            'id_guru' =>'required|exists:gurus,id_guru',
             'tanggal' => 'required',
             'deskripsi_laporan' => 'required',
             'id_jenis' => 'required|exists:jenis_laporan,id_jenis',
@@ -50,6 +51,7 @@ class LaporanController extends Controller
             'deskripsi_laporan' => $request->deskripsi_laporan,
             'tanggal' => $request->tanggal,
             'id_jenis' => $request->id_jenis,
+            'id_guru' => $request->id_guru,
         ]);
 
         $gambarPaths = [];

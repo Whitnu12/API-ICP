@@ -12,6 +12,11 @@ function showAlert(message) {
     }, 3000);
 }
 
+function getApiUrl(endpoint) {
+    const apiUrl = "https://managementservice-smkn1kobi.my.id/api/";
+    return apiUrl + endpoint;
+}
+
 function addJurusan() {
     const jurusan = document.getElementById("jurusan").value;
 
@@ -19,7 +24,7 @@ function addJurusan() {
         nama_jurusan: jurusan,
     };
 
-    fetch("http://192.168.100.6/laravel-icp2/public/api/jurusan", {
+    fetch(getApiUrl("jurusan"), {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

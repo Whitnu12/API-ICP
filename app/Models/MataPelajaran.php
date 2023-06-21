@@ -16,12 +16,12 @@ class MataPelajaran extends Model
 
     public function jurusan()
     {
-        return $this->belongsTo(Jurusan::class, 'id_jurusan', 'id_jurusan');
+        return $this->belongsTo(jurusan::class, 'id_jurusan', 'id_jurusan');
     }
 
     public function kelas()
     {
-        return $this->belongsTo(Kelas::class, 'id_kelas', 'id_kelas');
+        return $this->belongsTo(kelas::class, 'id_kelas', 'id_kelas');
     }
 
     public function guru()

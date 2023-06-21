@@ -50,6 +50,11 @@ function tambahTahun() {
 // Memanggil fungsi populateDropdown() saat halaman dimuat
 populateDropdown();
 
+function getApiUrl(endpoint) {
+    const apiUrl = "https://managementservice-smkn1kobi.my.id/api/";
+    return apiUrl + endpoint;
+}
+
 function addKelas() {
     const namaKelas = document.getElementById("nama_kelas").value;
     const jurusan = document.getElementById("jurusan").value;
@@ -63,7 +68,7 @@ function addKelas() {
         angkatan: angkatan,
     };
 
-    fetch("http://192.168.100.6/laravel-icp2/public/api/kelas", {
+    fetch(getApiUrl("kelas"), {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -95,7 +100,7 @@ function addKelas() {
 }
 
 function fetchJurusanData(idJurusan, callback) {
-    fetch(`http://192.168.100.6/laravel-icp2/public/api/jurusan/${idJurusan}`)
+    fetch(getApiUrl(`jurusan/${idJurusan}`))
         .then((response) => response.json())
         .then((data) => {
             const jurusan = data.data;
@@ -108,7 +113,7 @@ function fetchJurusanData(idJurusan, callback) {
 }
 
 function getDataKelas() {
-    fetch(`http://192.168.100.6/laravel-icp2/public/api/kelas`)
+    fetch(getApiUrl(`kelas`))
         .then((response) => response.json())
         .then((data) => {
             renderKelasDataTable(data);
@@ -196,7 +201,7 @@ function renderKelasDataTable(data) {
 
 function populateJurusanDropdown() {
     // Ganti URL_API dengan URL API yang sesuai
-    fetch("http://192.168.100.6/laravel-icp2/public/api/jurusan")
+    fetch(getApiUrl("jurusan"))
         .then((response) => response.json())
         .then((data) => {
             const dropdown = document.getElementById("jurusan");
