@@ -13,7 +13,7 @@
 
 <body>
 
-    <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+    <nav class="fixed top-0 z-50 w-full bg-white shadow-md border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
             <div class="flex items-center justify-between">
                 <div class="flex items-center justify-start">
@@ -35,7 +35,7 @@
                         <div>
                             <a href="#" class="flex s">
                                 <img src="{{ asset('assets/image/smkn1_logo.png') }}" class="h-8 mr-3"
-                                    alt="FlowBite Logo" />
+                                    alt="SMKN 1 kobi logo" />
                                 <span
                                     class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">E-Manage</span>
                             </a>
@@ -45,10 +45,10 @@
             </div>
         </div>
     </nav>
-    <aside class="fixed top-0 left-0 z-50 w-fit h-screen bg-gray-50 border-2 ">
+    <aside class="fixed top-0 left-0 z-50 w-fit h-screen bg-white shadow-md">
         <div class="h-full px-2 pb-2">
             <div class="flex items-center">
-                <div>
+                <div class="pt-3 ">
                     <button type="button"
                         class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                         aria-expanded="false" data-dropdown-toggle="dropdown-user">
@@ -87,11 +87,11 @@
                     </ul>
                 </div>
             </div>
-            <ul class="grid relative top-1/3">
+            <ul class="grid relative top-1/4">
                 <li>
                     <div class="container block" data-tooltip-target="tooltip-home" data-tooltip-placement="right">
                         <a href="{{ route('dashboard') }}"
-                            class="block items-center p-2 {{ Request::is('home') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                            class="block items-center p-2 {{ Request::is('home') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-6 h-6 {{ Request::is('home') ? 'text-white' : 'text-gray-500' }}">
                                 <path
@@ -110,7 +110,7 @@
                 <li>
                     <div class="container block" data-tooltip-target="tooltip-guru" data-tooltip-placement="right">
                         <a href="{{ route('ptk') }}"
-                            class="block items-center p-2 {{ Request::is('home') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                            class="block items-center p-2 {{ Request::is('ptk') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
                                 <path fill-rule="evenodd"
