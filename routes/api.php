@@ -86,8 +86,16 @@ Route::prefix('jadwal-mengajar')->group(function(){
 
 
 
-Route::post('multiple-upload-file', [GambarController::class, 'store']);
-Route::get('laporan/', [LaporanController::class, 'index']);
-Route::post('laporan/create', [LaporanController::class, 'store']);
-Route::get('laporan/{id}', [LaporanController::class, 'show']);
+// Route::post('multiple-upload-file', [GambarController::class, 'store']);
+// Route::get('laporan/', [LaporanController::class, 'index']);
+// Route::post('laporan/create', [LaporanController::class, 'store']);
+// Route::get('laporan/{id}', [LaporanController::class, 'show']);
+
+Route::prefix('laporan')->group(function(){
+    Route::get('/', [LaporanController::class, 'index']);
+    Route::get('/{id}', [LaporanController::class, 'show']);
+    Route::post('/create', [LaporanController::class, 'store']);
+    Route::put('/{id}', [LaporanController::class, 'update']);
+    Route::delete('/{id}', [LaporanController::class, 'delete']);
+});
 

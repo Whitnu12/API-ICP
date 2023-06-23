@@ -1,3 +1,5 @@
+import { getApiUrl } from "./api.js";
+
 function showAlert(message) {
     const alertElement = document.getElementById("toast-alert");
     const messageElement = document.getElementById("pesan");
@@ -12,16 +14,21 @@ function showAlert(message) {
     }, 3000);
 }
 
-function getApiUrl(endpoint) {
-    const apiUrl = "http://192.168.100.6/laravel-icp2/public/api/";
-    return apiUrl + endpoint;
-}
+// function getApiUrl(endpoint) {
+//     const apiUrl = "http://192.168.100.6/laravel-icp2/public/api/";
+//     return apiUrl + endpoint;
+// }
 
 function getDataGuru() {
     fetch(getApiUrl("guru"))
         .then((response) => response.json())
         .then((data) => {
-            if (data && data.status === "success" && Array.isArray(data.data)) {
+            if (
+                data &&
+                data.status === "success" &&
+                Array.isArray(data.data) &&
+                data.data.length > 0
+            ) {
                 const guruData = data.data;
 
                 // Menghapus semua baris yang ada di dalam tbody
@@ -112,12 +119,14 @@ function getDataGuru() {
                     // Menambahkan baris ke dalam tbody
                     guruBody.appendChild(row);
                 });
-
-                guruTable.style.display =
-                    guruData.length > 0 ? "table" : "none";
             } else {
-                console.error("Invalid response data:", data);
+                guruBody.innerHTML =
+                    '<tr><td colspan="6">Tidak ada data guru</td></tr>';
+                guruTable.style.display = "table";
             }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
         });
 }
 

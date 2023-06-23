@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\gambar_laporan;
+use App\Models\guru;
+use App\Models\jenisLaporan;
 use App\Models\laporan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+
 
 
 
@@ -13,17 +17,24 @@ class LaporanController extends Controller
 {
     
     public function index()
-    {
-        $laporan = Laporan::all();
+{
+    $laporan = Laporan::all();
 
-        return response()->json([
-            'message' => 'Success',
-            'data' => $laporan,
-        ]);
-    }
+    $laporan->transform(function ($item) {
+        $guru = guru::find($item->id_guru);
+        $jenisLaporan = jenisLaporan::find($item->id_jenis);
 
+        $item->id_guru = $guru->nama;
+        $item->id_jenis = $jenisLaporan->jenis_laporan;
 
+        return $item;
+    });
 
+    return response()->json([
+        'message' => 'success',
+        'data' => $laporan,
+    ]);
+}
 
     public function store(Request $request)
 {
@@ -57,12 +68,12 @@ class LaporanController extends Controller
         $gambarPaths = [];
         // Upload gambar-gambar ke storage dan simpan informasi gambar ke database
         foreach ($request->file('gambar') as $gambar) {
-            $gambarPath = $gambar->store('foto_kegiatan');
+            $gambarPath = $gambar->store('public/foto_kegiatan');
 
             // Simpan informasi gambar ke database
             $gambarLaporan = new gambar_laporan();
             $gambarLaporan->name = $gambar->getClientOriginalName();
-            $gambarLaporan->path = $gambarPath;
+            $gambarLaporan->path = str_replace('public/', '', $gambarPath);
             $gambarLaporan->id_laporan = $laporan->id_laporan; // Gunakan ID laporan yang baru dibuat
             $gambarLaporan->save();
 
@@ -81,92 +92,55 @@ class LaporanController extends Controller
             'error' => $e->getMessage(),
         ], 500);
     }
-    // try {
-    //     // Define validation rules
-    //     $validator = Validator::make($request->all(), [
-    //         'judul_laporan' => 'required',
-    //         'tanggal' => 'required',
-    //         'deskripsi_laporan' => 'required',
-    //         'id_jenis' => 'required|exists:jenis_laporan,id_jenis',
-    //         'gambar'     => 'required|file|mimes:jpeg,png,jpg,gif,svg|max:2048',
-    //     ]);
-
-    //     // Check if validation fails
-    //     if ($validator->fails()) {
-    //         return response()->json($validator->errors(), 422);
-    //     }
-
-    //     // Buat laporan baru
-    //     $laporan = Laporan::create([
-    //         'judul_laporan' => $request->judul_laporan,
-    //         'deskripsi_laporan' => $request->deskripsi_laporan,
-    //         'tanggal' => $request->tanggal,
-    //         'id_jenis' => $request->id_jenis,
-    //     ]);
-
-    //     Upload gambar-gambar ke storage dan simpan informasi gambar ke database
-    //     $gambarPaths = [];
-    //     foreach ($request->file('gambar') as $gambar) {
-    //         $gambarPath = $gambar->store('foto_kegiatan');
-
-    //         // Simpan informasi gambar ke database
-    //         $gambarLaporan = new gambar_laporan();
-    //         $gambarLaporan->nama = $gambar->getClientOriginalName();
-    //         $gambarLaporan->path = $gambarPath;
-    //         $gambarLaporan->laporan_id = $laporan->id; // Gunakan ID laporan yang baru dibuat
-    //         $gambarLaporan->save();
-
-    //         $gambarPaths[] = $gambarPath;
-    //     }
-        
-    //     // foreach ($request->file('gambar') as $imagefile) {
-    //     //     $image = new gambar_laporan();
-    //     //     $path = $imagefile->store('/images/resource');
-    //     //     $image->path = $path;
-    //     //     $image ->name = $image->getClientOriginalName();
-    //     //     $image->laporan_id = $laporan->id;
-    //     //     $image->save();
-    //     //   }
-    //     // $image =[$image,path];
-    //     $laporan->save();
-
-    //     // $image = $request->file('gambar');
-    //     // $image->storeAs('public/foto_kegiatan', $image->hashName());
-
-    //     // //create post
-    //     // $post = gambar_laporan::create([
-    //     //     'path'     => $image->hashName(),
-    //     //     'name'     => $image->getClientOriginalName(),
-    //     //     'id_laporan'   => $laporan->id_laporan,
-    //     // ]);
-
-    //     // Update kolom 'gambar' pada laporan dengan array path gambar
-
-    //     return response()->json([
-    //         'message' => 'Laporan created successfully',
-    //         'data' => $laporan, $image,
-    //     ], 201);
-    // } catch (\Exception $e) {
-    //     return response()->json([
-    //         'message' => 'Error creating laporan',
-    //         'error' => $e->getMessage(),
-    //     ], 500);
-    // }
 }
 
 
 public function show($id)
-{
-    $laporan = laporan::findOrFail($id);
-    $gambar = gambar_laporan::where('id_laporan', $laporan->id_laporan)->get();
+    {
+        try {
+            $laporan = Laporan::findOrFail($id);
+    
+            // Mengambil URL gambar dari database
+            $gambarURLs = gambar_laporan::where('id_laporan', $laporan->id_laporan)
+                ->pluck('path')
+                ->map(function ($path) {
+                    return $this->getGambarURL($path);
+                });
+    
+            $laporan->gambar = $gambarURLs;
+    
+            return response()->json(['data' => $laporan], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error retrieving laporan', 'error' => $e->getMessage()], 500);
+        }
+    }
+    
+    protected function getGambarURL($path)
+    {
+        $serverURL = 'http://192.168.100.6/laravel-icp2/public/storage'; // Ganti dengan URL server Anda
+        $gambarURL = $serverURL . '/' . $path;
+    
+        return $gambarURL;
+    }
 
-    return response()->json([
-        'message' => 'Success',
-        'data' => $laporan,
-        'gambar' => $gambar,
-    ]);
-}
-
+    public function delete($id)
+    {
+        try {
+            $laporan = laporan::findOrFail($id);
+            $gambarLaporans = gambar_laporan::where('id_laporan', $laporan->id_laporan)->get();    
+            foreach ($gambarLaporans as $gambarLaporan) {
+                Storage::delete($gambarLaporan->path);    
+                $gambarLaporan->delete();
+            }
+            $laporan->delete();
+    
+            return response()->json([
+                'message' => 'Laporan deleted successfully',
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error deleting laporan', 'error' => $e->getMessage()], 500);
+        }
+    }
 }
      
     

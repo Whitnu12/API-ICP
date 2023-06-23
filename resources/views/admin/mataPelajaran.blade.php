@@ -5,7 +5,6 @@
 @section('content')
     <div class=" flex gap-5 justify-between">
         <div>
-
             <table id="mataPelajaranTable" class=" text-sm text-left text-gray-500">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
@@ -23,7 +22,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="w-1/2 h-fit ">
+        <div class="w-1/3 h-fit ">
             <div class="bg-green-50 px-4 pb-10 rounded-lg">
                 <div>
                     <div class="mb-4 border-b border-gray-200 dark:border-gray-700">

@@ -15,7 +15,7 @@ class GuruController extends Controller
 {
     public function index()
     {
-        $gurus = Guru::all();
+        $gurus = guru::all();
 
         return response()->json([
             'status' => 'success',

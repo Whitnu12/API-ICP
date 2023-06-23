@@ -1,3 +1,5 @@
+import { getApiUrl } from "./api.js";
+
 function showAlert(message) {
     const alertElement = document.getElementById("toast-alert");
     const messageElement = document.getElementById("pesan");
@@ -10,11 +12,6 @@ function showAlert(message) {
         alertElement.classList.remove("visible");
         alertElement.classList.add("invisible");
     }, 3000);
-}
-
-function getApiUrl(endpoint) {
-    const apiUrl = "http://192.168.100.6/laravel-icp2/public/api/";
-    return apiUrl + endpoint;
 }
 
 function addJurusan() {

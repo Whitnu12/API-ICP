@@ -1,3 +1,5 @@
+import { getApiUrl } from "./api.js";
+
 function showAlert(message) {
     const alertElement = document.getElementById("toast-alert");
     const messageElement = document.getElementById("pesan");
@@ -10,11 +12,6 @@ function showAlert(message) {
         alertElement.classList.remove("visible");
         alertElement.classList.add("invisible");
     }, 3000);
-}
-
-function getApiUrl(endpoint) {
-    const apiUrl = "http://192.168.100.6/laravel-icp2/public/api/";
-    return apiUrl + endpoint;
 }
 
 // Event listener untuk menghandle submit form penambahan mata pelajaran
@@ -166,67 +163,68 @@ function renderMataPelajaranTable(data) {
     mataPelajaranBody.innerHTML = "";
 
     // Mengisi tabel dengan data mata pelajaran
-    data.forEach((mataPelajaran, index) => {
-        const row = document.createElement("tr");
-        row.classList.add(`hover:bg-gray-100`, `bg-white`);
-        
-        // Kolom No
-        const noCell = document.createElement("td");
-        noCell.classList.add("tableCellid");
-        noCell.textContent = index + 1;
-        row.appendChild(noCell);
+    if (data && data.length > 0) {
+        data.forEach((mataPelajaran, index) => {
+            const row = document.createElement("tr");
+            row.classList.add(`hover:bg-gray-100`, `bg-white`);
 
-        // const idCell = document.createElement("td");
-        // idCell.classList.add("tableCellid");
-        // idCell.textContent = mataPelajaran.kode_mapel;
-        // row.appendChild(idCell);
+            // Kolom No
+            const noCell = document.createElement("td");
+            noCell.classList.add("tableCellid");
+            noCell.textContent = index + 1;
+            row.appendChild(noCell);
 
-        // Kolom Nama Mata Pelajaran
-        const namaMapelCell = document.createElement("td");
-        namaMapelCell.classList.add("tableCellMapel");
-        namaMapelCell.textContent = mataPelajaran.nama_mapel;
-        row.appendChild(namaMapelCell);
+            // const idCell = document.createElement("td");
+            // idCell.classList.add("tableCellid");
+            // idCell.textContent = mataPelajaran.kode_mapel;
+            // row.appendChild(idCell);
 
-        // Kolom Jurusan
-        const jurusanCell = document.createElement("td");
-        jurusanCell.classList.add("tableCellMapel");
-        jurusanCell.textContent = mataPelajaran.jurusan.nama_jurusan; // Menggunakan atribut nama_jurusan dari objek jurusan
-        row.appendChild(jurusanCell);
+            // Kolom Nama Mata Pelajaran
+            const namaMapelCell = document.createElement("td");
+            namaMapelCell.classList.add("tableCellMapel");
+            namaMapelCell.textContent = mataPelajaran.nama_mapel;
+            row.appendChild(namaMapelCell);
 
-        // Kolom Kelas
-        const kelasCell = document.createElement("td");
-        kelasCell.classList.add("tableCellMapel");
-        kelasCell.textContent = mataPelajaran.kelas.nama_kelas; // Menggunakan atribut nama_kelas dari objek kelas
-        row.appendChild(kelasCell);
+            // Kolom Jurusan
+            const jurusanCell = document.createElement("td");
+            jurusanCell.classList.add("tableCellMapel");
+            jurusanCell.textContent = mataPelajaran.jurusan.nama_jurusan; // Menggunakan atribut nama_jurusan dari objek jurusan
+            row.appendChild(jurusanCell);
 
-        // Kolom Pengajar
-        const pengajarCell = document.createElement("td");
-        pengajarCell.classList.add("tableCellMapel");
-        pengajarCell.textContent = mataPelajaran.guru.nama; // Menggunakan atribut nama dari objek guru
-        row.appendChild(pengajarCell);
+            // Kolom Kelas
+            const kelasCell = document.createElement("td");
+            kelasCell.classList.add("tableCellMapel");
+            kelasCell.textContent = mataPelajaran.kelas.nama_kelas; // Menggunakan atribut nama_kelas dari objek kelas
+            row.appendChild(kelasCell);
 
-        // Kolom Action - Tombol Delete
-        const deleteCell = document.createElement("td");
-        deleteCell.classList.add("tableCellAction");
-        const deleteButton = document.createElement("button");
-        deleteButton.innerHTML = `
+            // Kolom Pengajar
+            const pengajarCell = document.createElement("td");
+            pengajarCell.classList.add("tableCellMapel");
+            pengajarCell.textContent = mataPelajaran.guru.nama; // Menggunakan atribut nama dari objek guru
+            row.appendChild(pengajarCell);
+
+            // Kolom Action - Tombol Delete
+            const deleteCell = document.createElement("td");
+            deleteCell.classList.add("tableCellAction");
+            const deleteButton = document.createElement("button");
+            deleteButton.innerHTML = `
                     <div class="bg-red-50 p-1">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-red-500  m-2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                     </svg>
                     </div>
                   `;
-        deleteButton.addEventListener("click", () => {
-            deleteMapel(mataPelajaran.kode_mapel);
-        });
-        deleteCell.appendChild(deleteButton);
-        row.appendChild(deleteCell);
+            deleteButton.addEventListener("click", () => {
+                deleteMapel(mataPelajaran.kode_mapel);
+            });
+            deleteCell.appendChild(deleteButton);
+            row.appendChild(deleteCell);
 
-        // Kolom Action - Tombol Update
-        const updateCell = document.createElement("td");
-        updateCell.classList.add("tableCellAction");
-        const updateButton = document.createElement("button");
-        updateButton.innerHTML = `
+            // Kolom Action - Tombol Update
+            const updateCell = document.createElement("td");
+            updateCell.classList.add("tableCellAction");
+            const updateButton = document.createElement("button");
+            updateButton.innerHTML = `
                     <div class="bg-green-50 p-1">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"class="w-5 h-5 text-green-500  m-2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
@@ -234,25 +232,34 @@ function renderMataPelajaranTable(data) {
 
                     </div>
                   `;
-        updateButton.addEventListener("click", () => {
-            // Mengisi nilai form dengan data mata pelajaran yang akan diperbarui
-            fillFormWithMataPelajaranData(mataPelajaran.kode_mapel);
-        });
-        updateCell.appendChild(updateButton);
-        row.appendChild(updateCell);
-
-        // Menambahkan event listener untuk pemilihan baris mata pelajaran
-        row.addEventListener("click", () => {
-            const rows = document.querySelectorAll(".tableRow");
-            rows.forEach((row) => {
-                row.classList.remove("selected");
+            updateButton.addEventListener("click", () => {
+                // Mengisi nilai form dengan data mata pelajaran yang akan diperbarui
+                fillFormWithMataPelajaranData(mataPelajaran.kode_mapel);
             });
-            row.classList.add("selected");
-        });
+            updateCell.appendChild(updateButton);
+            row.appendChild(updateCell);
 
-        // Menambahkan baris ke dalam tbody
+            // Menambahkan event listener untuk pemilihan baris mata pelajaran
+            row.addEventListener("click", () => {
+                const rows = document.querySelectorAll(".tableRow");
+                rows.forEach((row) => {
+                    row.classList.remove("selected");
+                });
+                row.classList.add("selected");
+            });
+
+            // Menambahkan baris ke dalam tbody
+            mataPelajaranBody.appendChild(row);
+        });
+    } else {
+        // Tidak ada data yang diterima
+        const row = document.createElement("tr");
+        const emptyCell = document.createElement("td");
+        emptyCell.setAttribute("colspan", "6");
+        emptyCell.textContent = "Tidak ada data mata pelajaran";
+        row.appendChild(emptyCell);
         mataPelajaranBody.appendChild(row);
-    });
+    }
 }
 
 function fillFormWithMataPelajaranData(kodeMapel) {

@@ -10,6 +10,7 @@ class kelas extends Model
     use HasFactory;
     protected $fillable = ['nama_kelas', 'angkatan', 'id_jurusan', 'jumlahMurid' ];
     protected $primaryKey = 'id_kelas';
+    
 
     public function mataPelajarans()
     {

@@ -23,7 +23,7 @@
             </table>
         </div>
 
-        <div class="w-1/2 h-fit ">
+        <div class="w-1/3 h-fit ">
             <div class="bg-green-50 px-4 pb-10 rounded-lg">
                 <div>
                     <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
