@@ -10,6 +10,7 @@ class jadwalMengajar extends Model
     use HasFactory;
 
     protected $table = 'jadwal_mengajar';
+    protected $primaryKey = 'id_mengajar';
 
     protected $fillable = [
         'id_guru',
@@ -18,6 +19,7 @@ class jadwalMengajar extends Model
         'hari',
         'jam_mulai',
         'jam_selesai',
+        'jam_belajar',
     ];
 
     // Relasi dengan model Guru
@@ -29,7 +31,7 @@ class jadwalMengajar extends Model
     // Relasi dengan model Mapel
     public function mapel()
     {
-        return $this->belongsTo(MataPelajaran::class, 'id_mapel');
+        return $this->belongsTo(MataPelajaran::class, 'kode_mapel');
     }
 
     // Relasi dengan model Kelas

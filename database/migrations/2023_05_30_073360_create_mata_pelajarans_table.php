@@ -15,13 +15,12 @@ return new class extends Migration
             $table->id('kode_mapel');
             $table->string('nama_mapel')->unique();
             $table->unsignedBigInteger('id_jurusan');
-            $table->unsignedBigInteger('id_kelas');
-            $table->unsignedBigInteger('id_guru');
             $table->timestamps();
             $table->foreign('id_jurusan')->references('id_jurusan')->on('jurusan');
-            $table->foreign('id_kelas')->references('id_kelas')->on('kelas');
-            $table->foreign('id_guru')->references('id_guru')->on('gurus');
+        
         });
+        
+       
     }
 
     /**

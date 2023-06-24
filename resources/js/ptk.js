@@ -167,6 +167,18 @@ function tambahGuru() {
                 document.getElementById("password").value = "";
 
                 getDataGuru();
+            } else if (data && data.status === "error") {
+                const errors = data.message;
+
+                // Menampilkan pesan kesalahan berdasarkan field
+                Object.keys(errors).forEach((field) => {
+                    const errorMessages = errors[field];
+
+                    // Menampilkan pesan kesalahan menggunakan showAlert
+                    errorMessages.forEach((errorMessage) => {
+                        showAlert(errorMessage);
+                    });
+                });
             } else {
                 console.error("Error:", data);
             }

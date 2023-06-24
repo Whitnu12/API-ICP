@@ -15,41 +15,45 @@ function showAlert(message) {
 }
 
 // Event listener untuk menghandle submit form penambahan mata pelajaran
-function addMataPelajaran() {
-    const namaMapel = document.getElementById("namaMapel").value;
-    const jurusan = document.getElementById("jurusan").value;
-    const guru = Array.from(
-        document.getElementById("guru").selectedOptions
-    ).map((option) => option.value);
+function addJadwal() {
+    const namaMapel = document.getElementById("nama_mapel").value;
+    const kelas = document.getElementById("kelas").value;
+    const guru = document.getElementById("guru").value;
+    const hari = document.getElementById("hari").value;
+    const jamMulai = document.getElementById("jam_mulai").value;
+    const jamBelajar = document.getElementById("jam_belajar").value;
 
-    const mapelData = {
-        nama_mapel: namaMapel,
-        id_jurusan: jurusan,
+    const jadwalData = {
+        kode_mapel: namaMapel,
+        id_kelas: kelas,
         id_guru: guru,
+        hari: hari,
+        jam_mulai: jamMulai,
+        jam_belajar: jamBelajar,
     };
 
-    fetch(getApiUrl("mata-pelajaran/add"), {
+    fetch(getApiUrl("jadwal-mengajar"), {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(mapelData),
+        body: JSON.stringify(jadwalData),
     })
         .then((response) => {
             if (response.ok) {
                 // Tampilkan pesan sukses
-                showAlert("Mata pelajaran berhasil ditambahkan", "success");
-                console.log("Mata pelajaran berhasil ditambahkan");
+                showAlert("Jadwal Mengajar berhasil ditambahkan", "success");
+                console.log("Jadwal Mengajar berhasil ditambahkan");
                 getDataMataPelajaran();
             } else {
                 // Tangkap pesan error dari respons JSON jika ada
                 response.json().then((error) => {
                     showAlert(
-                        "Gagal menambahkan mata pelajaran: " + error.message,
+                        "Gagal menambahkan Jadwal Mengajar: " + error.message,
                         "error"
                     );
                     console.error(
-                        "Gagal menambahkan mata pelajaran:",
+                        "Gagal menambahkan Jadwal Mengajar:",
                         error.message
                     );
                 });
@@ -130,29 +134,29 @@ function updateMapel() {
         });
 }
 
-let mataPelajaranData = [];
+let mengajarData = [];
 
-function getDataMataPelajaran() {
-    fetch(getApiUrl("mata-pelajaran"))
+function getDataMengajar() {
+    fetch(getApiUrl("jadwal-mengajar"))
         .then((response) => response.json())
         .then((data) => {
-            mataPelajaranData = data;
-            renderMataPelajaranTable(data);
+            mengajarData = data;
+            renderMengajar(data);
         })
         .catch((error) => {
             console.error("Terjadi kesalahan:", error);
         });
 }
 
-function renderMataPelajaranTable(data) {
-    const mataPelajaranBody = document.getElementById("mataPelajaranTableBody");
+function renderMengajar(data) {
+    const mengajarBody = document.getElementById("mengajarBody");
 
     // Menghapus semua baris yang ada di dalam tbody
-    mataPelajaranBody.innerHTML = "";
+    mengajarBody.innerHTML = "";
 
     // Mengisi tabel dengan data mata pelajaran
     if (data && data.length > 0) {
-        data.forEach((mataPelajaran, index) => {
+        data.forEach((mengajar, index) => {
             const row = document.createElement("tr");
             row.classList.add(`hover:bg-gray-100`, `bg-white`);
 
@@ -162,49 +166,60 @@ function renderMataPelajaranTable(data) {
             noCell.textContent = index + 1;
             row.appendChild(noCell);
 
-            // const idCell = document.createElement("td");
-            // idCell.classList.add("tableCellid");
-            // idCell.textContent = mataPelajaran.kode_mapel;
-            // row.appendChild(idCell);
-
             // Kolom Nama Mata Pelajaran
             const namaMapelCell = document.createElement("td");
             namaMapelCell.classList.add("tableCellMapel");
-            namaMapelCell.textContent = mataPelajaran.nama_mapel;
+            namaMapelCell.textContent = mengajar.mapel.nama_mapel;
             row.appendChild(namaMapelCell);
 
-            // Kolom Jurusan
-            const jurusanCell = document.createElement("td");
-            jurusanCell.classList.add("tableCellMapel");
-            jurusanCell.textContent = mataPelajaran.jurusan.nama_jurusan; // Menggunakan atribut nama_jurusan dari objek jurusan
-            row.appendChild(jurusanCell);
-
             // Kolom Kelas
-            // const kelasCell = document.createElement("td");
-            // kelasCell.classList.add("tableCellMapel");
-            // kelasCell.textContent = mataPelajaran.kelas.nama_kelas; // Menggunakan atribut nama_kelas dari objek kelas
-            // row.appendChild(kelasCell);
+            const kelasCell = document.createElement("td");
+            kelasCell.classList.add("tableCellMapel");
+            kelasCell.textContent = mengajar.kelas.kode_kelas;
+            row.appendChild(kelasCell);
 
             // Kolom Pengajar
             const pengajarCell = document.createElement("td");
             pengajarCell.classList.add("tableCellMapel");
 
-            mataPelajaran.guru.forEach((guru) => {
-                const badge = document.createElement("span");
-                badge.classList.add(`bg-green-100`);
-                badge.classList.add(`text-green-800`);
-                badge.classList.add(`text-sm`);
-                badge.classList.add(`font-medium`);
-                badge.classList.add(`mr-2`);
-                badge.classList.add(`px-2.5`);
-                badge.classList.add(`py-0.5`);
-                badge.classList.add(`rounded`);
+            const badge = document.createElement("span");
+            badge.classList.add(`bg-green-100`);
+            badge.classList.add(`text-green-800`);
+            badge.classList.add(`text-sm`);
+            badge.classList.add(`font-medium`);
+            badge.classList.add(`mr-2`);
+            badge.classList.add(`px-2.5`);
+            badge.classList.add(`py-0.5`);
+            badge.classList.add(`rounded`);
+            badge.textContent = mengajar.guru.nama;
 
-                badge.textContent = guru.nama; // Menggunakan atribut nama dari objek guru
-                pengajarCell.appendChild(badge);
-            });
-
+            pengajarCell.appendChild(badge);
             row.appendChild(pengajarCell);
+
+            // Kolom Hari
+            const hariCell = document.createElement("td");
+            hariCell.classList.add("tableCellMapel");
+            hariCell.textContent = mengajar.hari;
+            row.appendChild(hariCell);
+
+            // Kolom Mulai
+            const mulaiCell = document.createElement("td");
+            mulaiCell.classList.add("tableCellMapel");
+            mulaiCell.textContent = mengajar.jam_mulai;
+            row.appendChild(mulaiCell);
+
+            // Kolom Selesai
+            const selesaiCell = document.createElement("td");
+            selesaiCell.classList.add("tableCellMapel");
+            selesaiCell.textContent = mengajar.jam_selesai;
+            row.appendChild(selesaiCell);
+
+            // Kolom Jam Belajar
+            const jamBelajarCell = document.createElement("td");
+            jamBelajarCell.classList.add("tableCellMapel");
+            jamBelajarCell.textContent = mengajar.jam_belajar;
+            row.appendChild(jamBelajarCell);
+
             // Kolom Action - Tombol Delete
             const deleteCell = document.createElement("td");
             deleteCell.classList.add("tableCellAction");
@@ -217,7 +232,7 @@ function renderMataPelajaranTable(data) {
                     </div>
                   `;
             deleteButton.addEventListener("click", () => {
-                deleteMapel(mataPelajaran.kode_mapel);
+                deleteMapel(mengajar.kode_mapel);
             });
             deleteCell.appendChild(deleteButton);
             row.appendChild(deleteCell);
@@ -235,7 +250,7 @@ function renderMataPelajaranTable(data) {
                     </div>
                   `;
             updateButton.addEventListener("click", () => {
-                fillFormWithMataPelajaranData(mataPelajaran.kode_mapel);
+                fillFormWithMataPelajaranData(mengajar.kode_mapel);
             });
             updateCell.appendChild(updateButton);
             row.appendChild(updateCell);
@@ -250,16 +265,16 @@ function renderMataPelajaranTable(data) {
             });
 
             // Menambahkan baris ke dalam tbody
-            mataPelajaranBody.appendChild(row);
+            mengajarBody.appendChild(row);
         });
     } else {
         // Tidak ada data yang diterima
         const row = document.createElement("tr");
         const emptyCell = document.createElement("td");
-        emptyCell.setAttribute("colspan", "6");
+        emptyCell.setAttribute("colspan", "8");
         emptyCell.textContent = "Tidak ada data mata pelajaran";
         row.appendChild(emptyCell);
-        mataPelajaranBody.appendChild(row);
+        mengajarBody.appendChild(row);
     }
 }
 
@@ -288,26 +303,26 @@ function fillFormWithMataPelajaranData(kodeMapel) {
     }
 }
 
-function populateJurusanDropdown() {
+function populateKelasDropdown() {
     // Ganti URL_API dengan URL API yang sesuai
-    fetch(getApiUrl("jurusan"))
+    fetch(getApiUrl("kelas"))
         .then((response) => response.json())
         .then((data) => {
-            const dropdown = document.getElementById("jurusan");
+            const dropdown = document.getElementById("kelas");
             // Menghapus opsi sebelumnya
             dropdown.innerHTML = "";
 
             // Menambahkan opsi "Pilih Jurusan"
             const option = document.createElement("option");
             option.value = "null";
-            option.text = "Pilih Jurusan";
+            option.text = "Pilih kelas";
             dropdown.appendChild(option);
 
             // Menambahkan opsi dari data API
-            data.data.forEach((jurusan) => {
+            data.data.forEach((kelas) => {
                 const option = document.createElement("option");
-                option.value = jurusan.id_jurusan;
-                option.text = jurusan.nama_jurusan;
+                option.value = kelas.id_kelas;
+                option.text = kelas.kode_kelas;
                 dropdown.appendChild(option);
             });
         })
@@ -315,21 +330,19 @@ function populateJurusanDropdown() {
             console.log("Terjadi kesalahan:", error);
         });
 }
-
 function populateGuruDropdown() {
     // Ganti URL_API dengan URL API yang sesuai
     fetch(getApiUrl("guru"))
         .then((response) => response.json())
         .then((data) => {
             const dropdown = document.getElementById("guru");
-
             // Menghapus opsi sebelumnya
             dropdown.innerHTML = "";
 
             // Menambahkan opsi "Pilih Jurusan"
             const option = document.createElement("option");
             option.value = "null";
-            option.text = "Pilih Guru";
+            option.text = "Pilih guru";
             dropdown.appendChild(option);
 
             // Menambahkan opsi dari data API
@@ -345,26 +358,27 @@ function populateGuruDropdown() {
         });
 }
 
-function populateJurusan2Dropdown() {
+function populateMapelDropdown() {
     // Ganti URL_API dengan URL API yang sesuai
-    fetch(getApiUrl("jurusan"))
+    fetch(getApiUrl("mata-pelajaran"))
         .then((response) => response.json())
         .then((data) => {
-            const dropdown = document.getElementById("jurusan2");
+            const dropdown = document.getElementById("nama_mapel");
+
             // Menghapus opsi sebelumnya
             dropdown.innerHTML = "";
 
             // Menambahkan opsi "Pilih Jurusan"
             const option = document.createElement("option");
             option.value = "null";
-            option.text = "Pilih Jurusan";
+            option.text = "Pilih Mapel";
             dropdown.appendChild(option);
 
             // Menambahkan opsi dari data API
-            data.data.forEach((jurusan) => {
+            data.forEach((mataPelajaran) => {
                 const option = document.createElement("option");
-                option.value = jurusan.id_jurusan;
-                option.text = jurusan.nama_jurusan;
+                option.value = mataPelajaran.kode_mapel;
+                option.text = mataPelajaran.nama_mapel;
                 dropdown.appendChild(option);
             });
         })
@@ -373,57 +387,86 @@ function populateJurusan2Dropdown() {
         });
 }
 
-function populateGuru2Dropdown() {
-    // Ganti URL_API dengan URL API yang sesuai
-    fetch(getApiUrl("guru"))
-        .then((response) => response.json())
-        .then((data) => {
-            const dropdown = document.getElementById("guru2");
+// function populateJurusan2Dropdown() {
+//     // Ganti URL_API dengan URL API yang sesuai
+//     fetch(getApiUrl("jurusan"))
+//         .then((response) => response.json())
+//         .then((data) => {
+//             const dropdown = document.getElementById("jurusan2");
+//             // Menghapus opsi sebelumnya
+//             dropdown.innerHTML = "";
 
-            // Menghapus opsi sebelumnya
-            dropdown.innerHTML = "";
+//             // Menambahkan opsi "Pilih Jurusan"
+//             const option = document.createElement("option");
+//             option.value = "null";
+//             option.text = "Pilih Jurusan";
+//             dropdown.appendChild(option);
 
-            // Menambahkan opsi "Pilih Jurusan"
-            const option = document.createElement("option");
-            option.value = "null";
-            option.text = "Pilih Guru";
-            dropdown.appendChild(option);
+//             // Menambahkan opsi dari data API
+//             data.data.forEach((jurusan) => {
+//                 const option = document.createElement("option");
+//                 option.value = jurusan.id_jurusan;
+//                 option.text = jurusan.nama_jurusan;
+//                 dropdown.appendChild(option);
+//             });
+//         })
+//         .catch((error) => {
+//             console.log("Terjadi kesalahan:", error);
+//         });
+// }
 
-            // Menambahkan opsi dari data API
-            data.data.forEach((guru) => {
-                const option = document.createElement("option");
-                option.value = guru.id_guru;
-                option.text = guru.nama;
-                dropdown.appendChild(option);
-            });
-        })
-        .catch((error) => {
-            console.log("Terjadi kesalahan:", error);
-        });
-}
+// function populateGuru2Dropdown() {
+//     // Ganti URL_API dengan URL API yang sesuai
+//     fetch(getApiUrl("guru"))
+//         .then((response) => response.json())
+//         .then((data) => {
+//             const dropdown = document.getElementById("guru2");
+
+//             // Menghapus opsi sebelumnya
+//             dropdown.innerHTML = "";
+
+//             // Menambahkan opsi "Pilih Jurusan"
+//             const option = document.createElement("option");
+//             option.value = "null";
+//             option.text = "Pilih Guru";
+//             dropdown.appendChild(option);
+
+//             // Menambahkan opsi dari data API
+//             data.data.forEach((guru) => {
+//                 const option = document.createElement("option");
+//                 option.value = guru.id_guru;
+//                 option.text = guru.nama;
+//                 dropdown.appendChild(option);
+//             });
+//         })
+//         .catch((error) => {
+//             console.log("Terjadi kesalahan:", error);
+//         });
+// }
 // Memanggil fungsi untuk mendapatkan dan menampilkan data mata pelajaran saat halaman dimuat
-getDataMataPelajaran();
-populateJurusanDropdown();
+getDataMengajar();
+populateKelasDropdown();
+populateMapelDropdown();
 populateGuruDropdown();
 
-populateJurusan2Dropdown();
-populateGuru2Dropdown();
+// populateJurusan2Dropdown();
+// populateGuru2Dropdown();
 
-const form = document.getElementById("updateMataPelajaranForm");
+const form = document.getElementById("rubahMengajar");
 form.addEventListener("submit", function (event) {
     event.preventDefault();
     updateMapel($id_2);
 });
 
 document
-    .getElementById("addMataPelajaranForm")
+    .getElementById("tambahMengajar")
     .addEventListener("submit", function (event) {
         event.preventDefault();
-        addMataPelajaran();
+        addJadwal();
     });
 
 $(document).ready(function () {
-    $("#jurusan").select2();
+    $("#kelas").select2();
 });
 
 $(document).ready(function () {
@@ -431,9 +474,9 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $("#jurusan2").select2();
+    $("#nama_mapel").select2();
 });
 
 $(document).ready(function () {
-    $("#guru2").select2();
+    $("#hari").select2();
 });

@@ -16,6 +16,7 @@
                         <th class="tableCellid">Nama Pengirim</th>
                         <th class="tableCellMapel">Nama Laporan</th>
                         <th class="tableCellMapel">Jenis Laporan</th>
+                        <th class="tableCellMapel"> Action </th>
                     </tr>
                 </thead>
                 <tbody id="laporanBody">

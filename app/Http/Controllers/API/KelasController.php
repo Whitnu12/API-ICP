@@ -25,39 +25,44 @@ class KelasController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'nama_kelas' => 'required|unique:kelas,nama_kelas',
+        $validator = Validator::make($request->all(), [
+            'kelas' => 'required',
+            'nama_kelas' => 'required',
             'id_jurusan' => 'required',
-            'jumlahMurid' => 'required',
-            'angkatan' => 'required',
+            'kode_kelas' => 'required|unique:kelas,kode_kelas'
         ]);
-
-        $kelas = Kelas::create($validatedData);
-        return response()->json(['message' => 'Data kelas berhasil ditambah', 'data' => $kelas],201);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+    
+        $kelas = kelas::create($request->all());
+        return response()->json(['message' => 'Data kelas berhasil ditambah', 'data' => $kelas], 201);
     }
+    
 
     public function update(Request $request, $id)
-{
+    {
     $kelas = kelas::find($id);
     if (!$kelas) {
         return response()->json(['message' => 'Data kelas tidak ditemukan'], 404);
     }
 
     $validator = Validator::make($request->all(), [
+        'kelas' => 'required|sometimes',
         'nama_kelas' => 'required|sometimes',
         'id_jurusan' => 'required|sometimes',
-        'jumlahMurid' => 'required|sometimes',
-        'angkatan' => 'required|sometimes',
+        'kode_kelas' => 'required|sometimes'
     ]);
 
     if ($validator->fails()) {
         return response()->json(['message' => 'Data kelas gagal diubah', 'data' => $validator->errors()], 400);
     }
 
-    $kelas->nama_kelas = $request->input('nama_kelas', $kelas->nama_kelas);
+    $kelas->nama_kelas = $request->input('nama_kelas', $kelas->nama_kelas);   
+    $kelas->kelas = $request->input('kelas', $kelas->kelas);
     $kelas->id_jurusan = $request->input('id_jurusan', $kelas->id_jurusan);
-    $kelas->jumlahMurid = $request->input('jumlahMurid', $kelas->jumlahMurid);
-    $kelas->angkatan = $request->input('angkatan', $kelas->angkatan);
+    $kelas->kode_kelas = $request->input('kode_kelas', $kelas->kode_kelas);
     $kelas->save();
 
     return response()->json(['message' => 'Data kelas berhasil dirubah', 'data' => $kelas], 200);

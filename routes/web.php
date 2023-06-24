@@ -26,6 +26,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::view('/dashboard/sekolah', 'admin/sekolah')->name('sekolah');
     Route::view('/dashboard/laporan', 'admin/laporan')->name('laporan');
     Route::view('/dashboard/kelas', 'admin/kelas')->name('kelas');
+    Route::view('/dashboard/jadwal_mengajar', 'admin/jadwal_mengajar')->name('jadwal_mengajar');
 });
 
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login');

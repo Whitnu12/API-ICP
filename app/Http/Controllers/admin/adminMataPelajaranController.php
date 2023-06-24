@@ -13,67 +13,93 @@ use App\Models\guru;
 class adminMataPelajaranController extends Controller
 {
     public function indexMapel()
-    {
-        $mataPelajarans = MataPelajaran::with(['jurusan', 'kelas', 'guru'])->get();;
-        return response()->json($mataPelajarans);
+{
+    $mataPelajarans = MataPelajaran::with(['jurusan', 'guru:id_guru,nama,npp'])->get();
+    
+    // Memodifikasi respons JSON
+    $data = [];
+    foreach ($mataPelajarans as $mataPelajaran) {
+        $mapelData = [
+            'kode_mapel' => $mataPelajaran->kode_mapel,
+            'nama_mapel' => $mataPelajaran->nama_mapel,
+            'jurusan' => $mataPelajaran->jurusan,
+            'guru' => $mataPelajaran->guru,
+        ];
+        $data[] = $mapelData;
     }
+    
+    return response()->json($data);
+}
 
-    public function cariMapel($id)
-    {
-        $mataPelajaran = MataPelajaran::find($id);
-        if (!$mataPelajaran) {
-            return response()->json(['message' => 'Mata Pelajaran not found'], 404);
-        }
-        return response()->json($mataPelajaran);
+public function cariMapel($id)
+{
+    $mataPelajaran = MataPelajaran::with('guru:id_guru,nama,npp')->find($id);
+    if (!$mataPelajaran) {
+        return response()->json(['message' => 'Mata Pelajaran not found'], 404);
     }
+    
+    return response()->json($mataPelajaran);
+}
 
     public function addMapel(Request $request)
     {
         try {
-            $validatedData = $request->validate([
+            $validator = Validator::make($request->all(), [
                 'nama_mapel' => 'required',
                 'id_jurusan' => 'required|exists:jurusan,id_jurusan',
-                'id_kelas' => 'required|exists:kelas,id_kelas',
-                'id_guru' => 'required|exists:gurus,id_guru',
+                'id_guru' => 'required|array',
+                'id_guru.*' => 'exists:gurus,id_guru',
             ]);
     
-            $jurusan = Jurusan::findOrFail($validatedData['id_jurusan']);
-            $guru = Guru::findOrFail($validatedData['id_guru']);
-            $kelas = Kelas::findOrFail($validatedData['id_kelas']);
-    
-            // Menambahkan data MataPelajaran
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], 400);
+            }
+        
             $mataPelajaran = new MataPelajaran();
-            $mataPelajaran->nama_mapel = $validatedData['nama_mapel'];
-    
-            // Menyimpan relasi dengan Jurusan, Kelas, dan Guru pada MataPelajaran
-            $mataPelajaran->jurusan()->associate($jurusan);
-            $mataPelajaran->kelas()->associate($kelas);
-            $mataPelajaran->guru()->associate($guru);
+            $mataPelajaran->nama_mapel = $request->input('nama_mapel');
+            $mataPelajaran->id_jurusan = $request->input('id_jurusan');
             $mataPelajaran->save();
+        
+            $gurus = $request->input('id_guru');
+            foreach ($gurus as $guruId) {
+                $mataPelajaran->guru()->attach($guruId);
+            }
     
             return response()->json($mataPelajaran, 201);
-    
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to add Mata Pelajaran. Please try again.'], 500);
+            return response()->json(['message' => 'Failed to add Mata Pelajaran. Please try again. Error: ' . $e->getMessage()], 500);
         }
     }
 
     public function rubahMapel(Request $request, $id)
     {
-        $mataPelajaran = MataPelajaran::find($id);
-        if (!$mataPelajaran) {
-            return response()->json(['message' => 'Mata Pelajaran not found'], 404);
-        }
-
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama_mapel' => 'required',
             'id_jurusan' => 'required',
-            'id_kelas' => 'required',
-            'id_guru' => 'required',
+            'id_guru' => 'required|array',
+            'id_guru.*' => 'exists:gurus,id_guru',
         ]);
-
-        $mataPelajaran->update($validatedData);
-        return response()->json(['message' => 'berhasil dirubah', 'data' => $mataPelajaran]);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+    
+        try {
+            $mataPelajaran = MataPelajaran::find($id);
+            if (!$mataPelajaran) {
+                return response()->json(['message' => 'Mata Pelajaran not found'], 404);
+            }
+    
+            $mataPelajaran->nama_mapel = $request->input('nama_mapel');
+            $mataPelajaran->id_jurusan = $request->input('id_jurusan');
+            $mataPelajaran->save();
+    
+            $mataPelajaran->guru()->sync($request->input('id_guru'));
+    
+            return response()->json(['message' => 'Mata Pelajaran successfully updated', 'data' => $mataPelajaran]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to update Mata Pelajaran. Please try again. Error: ' . $e->getMessage()], 500);
+        }
     }
 
     public function hapusMapel($id)

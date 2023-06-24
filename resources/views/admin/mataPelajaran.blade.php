@@ -12,7 +12,7 @@
                         {{-- <th class="tableCellid">id</th> --}}
                         <th class="tableCellMapel">Nama Mapel</th>
                         <th class="tableCellid">Jurusan</th>
-                        <th class="tableCellid">Kelas</th>
+                        {{-- <th class="tableCellid">Kelas</th> --}}
                         <th class="tableCellMapel">Pengajar</th>
                         <th class="tableCellAction" colspan="2">Action</th>
                     </tr>
@@ -62,19 +62,10 @@
                                             <option value="null">Pilih Jurusan</option>
                                         </select>
                                     </div>
-
-                                    <div>
-                                        <label for="kelas"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kelas</label>
-                                        <select id="kelas" style="width:100%;">
-                                            <option value="null">Pilih Kelas</option>
-                                        </select>
-                                    </div>
-
                                     <div>
                                         <label for="guru"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pengajar</label>
-                                        <select id="guru" style="width:100%;">
+                                        <select id="guru" style="width:100%;" multiple>
                                             <option value="null">Pilih guru</option>
                                         </select>
                                     </div>
@@ -98,36 +89,27 @@
                                             class="shadow appearance-none border-none rounded w-full py-2 px-3 text-gray-700 leading-tight "
                                             readonly>
                                     </div>
-                                    <div class="">
-                                        <label for="nama_mapel_2">Nama Mata Pelajaran</label>
-                                        <input type="text" id="namaMapel_2" name="namaMapel_2"
+                                    <div class="my-2">
+                                        <label for="namaMapel2">Nama Mata Pelajaran</label>
+                                        <input type="text" id="namaMapel2" name="namaMapel2"
                                             class="shadow appearance-none border-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                     </div>
+
                                     <div>
-                                        <label for="jurusan_2"
+                                        <label for="jurusan"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan</label>
-                                        <select id="jurusan_2" style="width:100%;">
+                                        <select id="jurusan2" style="width:100%;">
                                             <option value="null">Pilih Jurusan</option>
                                         </select>
                                     </div>
-
                                     <div>
-                                        <label for="kelas_2"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kelas</label>
-                                        <select id="kelas_2" style="width:100%;">
-                                            <option value="null">Pilih Kelas</option>
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <label for="guru_2"
+                                        <label for="guru"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pengajar</label>
-                                        <select id="guru_2" style="width:100%;">
+                                        <select id="guru2" style="width:100%;" multiple>
                                             <option value="null">Pilih guru</option>
                                         </select>
                                     </div>
-                                    <button type="submit" id="updateButton" onclick="updateMapel($id_2)"
-                                        class="bg-gray-300 px-10 py-2 mt-4 block">Update</button>
+                                    <button type="submit" id="updateButton" onclick="updateMapel($id_2)"                                        class="bg-gray-300 px-10 py-2 mt-4 block">Update</button>
                                 </form>
                             </div>
                         </div>

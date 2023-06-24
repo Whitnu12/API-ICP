@@ -30,7 +30,7 @@ function addJurusan() {
     })
         .then((response) => response.json())
         .then((data) => {
-            if (data && data.status === "success") {
+            if (data.message === "Jurusan berhasil ditambahkan") {
                 showAlert("Jurusan berhasil ditambahkan!");
                 document.getElementById("addJurusan").reset();
             } else {

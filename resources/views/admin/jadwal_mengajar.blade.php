@@ -1,27 +1,26 @@
 <head>
-    @vite(['resources/js/kelas.js'])
+    @vite(['resources/js/mengajar.js'])
 </head>
 
 @extends('layout.admin_layout')
 @section('content')
-    {{-- <div class="mb-8">
-        <h1 class="text-3xl">Kelas 🎒</h1>
-    </div> --}}
     <div class="flex gap-5 justify-between">
         <div>
-            <table id="kelasTable" class=" text-sm text-left text-gray-500">
+            <table id="mengajarTable" class=" text-sm text-left text-gray-500">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                         <th class="tableCellid py-2">No</th>
-                        {{-- <th class="tableCellid">id</th> --}}
-                        <th class="tableCellMapel">kelas</th>
-                        {{-- <th class="tableCellMapel">jumlah Murid</th> --}}
-                        <th class="tableCellMapel">jurusan</th>
-                        <th class="tableCellMapel">Kode Kelas</th>
+                        <th class="tableCellMapel">Mata Pelajaran</th>
+                        <th class="tableCellMapel">Kelas</th>
+                        <th class="tableCellMapel">Pengajar</th>
+                        <th class="tableCellMapel">Hari</th>
+                        <th class="tableCellMapel">Mulai</th>
+                        <th class="tableCellMapel">Selesai</th>
+                        <th class="tableCellMapel">Jam belajar</th>
                         <th class="tableCellAction" colspan="2">Action</th>
                     </tr>
                 </thead>
-                <tbody id="kelasBody">
+                <tbody id="mengajarBody">
 
                 </tbody>
             </table>
@@ -52,34 +51,47 @@
                             aria-labelledby="profile-tab">
                             <div class=" p-4 w-full">
                                 <h2 class="text-4xl font-medium pb-2"> Tambah Kelas </h2>
-                                <form id="tambahKelas">
+                                <form id="tambahMengajar">
                                     @csrf
                                     <div class="my-2">
                                         <label for="kelas">Kelas </label>
                                         <Select id="kelas" style="width:100%;">
-                                            <option value="null">Pilih Kelas</option>
-                                            <option value="X">X</option>
-                                            <option value="XI">XI</option>
-                                            <option value="XII">XII</option>
                                         </Select>
                                     </div>
                                     <div class="my-2">
-                                        <label for="jurusan"
-                                            class="block mb-2 text-sm font-medium text-gray-900 ">Jurusan</label>
-                                        <select id="jurusan" style="width:100%;">
+                                        <label for="nama_mapel" class="block mb-2 text-sm font-medium text-gray-900 ">Mata
+                                            Pelajaran</label>
+                                        <select id="nama_mapel" style="width:100%;">
                                         </select>
                                     </div>
                                     <div class="my-2">
-                                        <label for="nama_kelas"> Nama Kelas (A/B/1/2) </label>
-                                        <input type="text" id="nama_kelas"
-                                            class="shadow appearance-none border-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                        </label>
+                                        <label for="hari"
+                                            class="block mb-2 text-sm font-medium text-gray-900 ">Hari</label>
+                                        <select id="hari" style="width:100%;">
+                                            <option value="null"> Pilih Hari </option>
+                                            <option value="senin">Senin</option>
+                                            <option value="selasa">Selasa</option>
+                                            <option value="rabu">Rabu</option>
+                                            <option value="kamis">Kamis</option>
+                                            <option value="jumat">Jum'at</option>
+                                            <option value="sabtu">Sabtu</option>
+                                        </select>
                                     </div>
                                     <div class="my-2">
-                                        <label for="kode_kelas"> Kode Kelas </label>
-                                        <input type="text" id="kode_kelas"
-                                            class="shadow appearance-none border-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                            readonly>
+                                        <label for="guru"> Pengajar </label>
+                                        <select type="text" id="guru" style="width: 100%"
+                                            class="shadow appearance-none border-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                        </select>
+                                    </div>
+                                    <div class="my-2">
+                                        <label for="jam_mulai"> mulai kelas (jam) </label>
+                                        <input type="time" id="jam_mulai"
+                                            class="shadow appearance-none border-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                    </div>
+                                    <div class="my-2">
+                                        <label for="jam_belajar"> Bobot jam belajar </label>
+                                        <input type="number" id="jam_belajar"
+                                            class="shadow appearance-none border-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                     </div>
 
 
@@ -91,7 +103,7 @@
                             aria-labelledby="dashboard-tab">
                             <div class="  p-4 w-full">
                                 <h2 class="text-4xl font-medium pb-2"> Rubah Kelas</h2>
-                                <form id="rubahKelas">
+                                <form id="rubahMengajar">
                                     @csrf
                                     <div class="my-2">
                                         <label for="id_kelas2"> ID </label>

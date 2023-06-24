@@ -14,57 +14,19 @@ function showAlert(message) {
     }, 3000);
 }
 
-var dropdown = document.getElementById("tahunDropdown");
-var dropdown2 = document.getElementById("tahunDropdown2");
-var tahunList = [2020, 2021, 2022, 2023];
-
-function populateDropdown() {
-    dropdown.innerHTML = "";
-
-    for (var i = 0; i < tahunList.length; i++) {
-        var option = document.createElement("option");
-        option.text = tahunList[i];
-        dropdown.add(option);
-    }
-}
-
-function populateDropdown2() {
-    dropdown2.innerHTML = "";
-
-    // Menambahkan opsi tahun ke dropdown
-    for (var i = 0; i < tahunList.length; i++) {
-        var option = document.createElement("option");
-        option.text = tahunList[i];
-        dropdown2.add(option);
-    }
-}
-
-function tambahTahun() {
-    var tahunTerbaru = tahunList[tahunList.length - 1] + 1;
-    tahunList.push(tahunTerbaru);
-
-    if (tahunList.length > 5) {
-        tahunList.shift();
-    }
-    populateDropdown();
-    populateDropdown2();
-}
-
-// Memanggil fungsi populateDropdown() saat halaman dimuat
-populateDropdown();
-populateDropdown2();
-
 function addKelas() {
     const namaKelas = document.getElementById("nama_kelas").value;
+    const kelas = document.getElementById("kelas").value;
     const jurusan = document.getElementById("jurusan").value;
-    const jumlah_murid = document.getElementById("jumlah_murid").value;
-    const angkatan = document.getElementById("tahunDropdown").value;
+    const kodeKelas = document.getElementById("kode_kelas").value;
+
+    const idJurusan = jurusan;
 
     const kelasData = {
         nama_kelas: namaKelas,
-        id_jurusan: jurusan,
-        jumlahMurid: jumlah_murid,
-        angkatan: angkatan,
+        kelas: kelas,
+        id_jurusan: idJurusan,
+        kode_kelas: kodeKelas,
     };
 
     fetch(getApiUrl("kelas"), {
@@ -157,14 +119,10 @@ function renderKelasDataTable(data) {
         //kelas
         const kelasCell = document.createElement("td");
         kelasCell.classList.add("tableCellMapel");
-        kelasCell.textContent = kelas.nama_kelas;
+        kelasCell.textContent = kelas.kelas;
         row.appendChild(kelasCell);
 
         //jumlah murid
-        const jumlahMurid = document.createElement("td");
-        jumlahMurid.classList.add("tableCellMapel");
-        jumlahMurid.textContent = kelas.jumlahMurid;
-        row.appendChild(jumlahMurid);
 
         //jurusan
         const idJurusan = kelas.id_jurusan;
@@ -180,10 +138,10 @@ function renderKelasDataTable(data) {
         row.appendChild(idJurusanCell);
 
         //tahun
-        const tahun = document.createElement("td");
-        tahun.classList.add("tableCellMapel");
-        tahun.textContent = kelas.angkatan;
-        row.appendChild(tahun);
+        const kodeKelas = document.createElement("td");
+        kodeKelas.classList.add("tableCellMapel");
+        kodeKelas.textContent = kelas.kode_kelas;
+        row.appendChild(kodeKelas);
 
         const deleteCell = document.createElement("td");
         deleteCell.classList.add("tableCellAction");
@@ -251,8 +209,8 @@ function deleteKelas(id) {
 function updateKelas() {
     const id = document.getElementById("id_kelas2").value;
     const namaKelas = document.getElementById("nama_kelas2").value;
-    const jumlahMurid = document.getElementById("jumlah_murid2").value;
-    const angkatan = document.getElementById("tahunDropdown2").value;
+    const kelas = document.getElementById("kelas_2").value;
+    const kodeKelas = document.getElementById("kode_kelas2").value;
     const jurusan = document.getElementById("jurusan2").value;
 
     // Prepare the request data
@@ -268,11 +226,11 @@ function updateKelas() {
     if (jurusan !== "") {
         data.append("id_jurusan", jurusan);
     }
-    if (jumlahMurid !== "") {
-        data.append("jumlahMurid", jumlahMurid);
+    if (kodeKelas !== "") {
+        data.append("kode_kelas", kodeKelas);
     }
-    if (angkatan !== "") {
-        data.append("angkatan", angkatan);
+    if (kelas !== "") {
+        data.append("kelas", kelas);
     }
 
     // Send the request to the API
@@ -364,17 +322,17 @@ populateJurusanDropdown2();
 
 function fillFormWithKelasData(kelas) {
     document.getElementById("nama_kelas2").value = kelas.nama_kelas;
-    document.getElementById("jumlah_murid2").value = kelas.jumlahMurid;
+    document.getElementById("kelas_2").value = kelas.kelas;
+    document.getElementById("kode_kelas2").value = kelas.kode_kelas;
     document.getElementById("jurusan2").value = kelas.id_jurusan;
-    document.getElementById("tahunDropdown2").value = kelas.angkatan;
     document.getElementById("id_kelas2").value = kelas.id_kelas;
 
     // Memperbarui tampilan dropdown Select2
     const jurusanSelect = $("#jurusan2");
     jurusanSelect.val(kelas.id_jurusan).trigger("change");
 
-    const angkatanSelect = $("#tahunDropdown2");
-    angkatanSelect.val(kelas.angkatan).trigger("change");
+    const angkatanSelect = $("#kelas2");
+    angkatanSelect.val(kelas.kelas).trigger("change");
 }
 
 document
@@ -404,5 +362,49 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    $("#tahunDropdown2").select2();
+    $("#kelas").select2();
 });
+
+function generateKodeKelas() {
+    const kelasValue = document.getElementById("kelas").value;
+    const jurusanSelect = document.getElementById("jurusan");
+    const jurusanOption = jurusanSelect.options[jurusanSelect.selectedIndex];
+    const namaJurusan = jurusanOption.textContent;
+    const namaKelasValue = document.getElementById("nama_kelas").value;
+
+    const kodeKelas = `${kelasValue} - ${namaJurusan} - ${namaKelasValue}`;
+    document.getElementById("kode_kelas").value = kodeKelas;
+}
+
+// Panggil fungsi generateKodeKelas setiap kali nilai input berubah
+document.getElementById("kelas").addEventListener("change", generateKodeKelas);
+document
+    .getElementById("jurusan")
+    .addEventListener("change", generateKodeKelas);
+document
+    .getElementById("nama_kelas")
+    .addEventListener("input", generateKodeKelas);
+
+function generateKodeKelas2() {
+    const kelasValue = document.getElementById("kelas_2").value;
+    const jurusanSelect = document.getElementById("jurusan2");
+    const jurusanOption = jurusanSelect.options[jurusanSelect.selectedIndex];
+    const namaJurusan = jurusanOption.textContent;
+    const namaKelasValue = document.getElementById("nama_kelas2").value;
+
+    const kodeKelas = `${kelasValue} - ${namaJurusan} - ${namaKelasValue}`;
+    document.getElementById("kode_kelas2").value = kodeKelas;
+}
+
+// Panggil fungsi generateKodeKelas setiap kali nilai input berubah
+document
+    .getElementById("kelas_2")
+    .addEventListener("change", generateKodeKelas2);
+document
+    .getElementById("jurusan2")
+    .addEventListener("change", generateKodeKelas2);
+document
+    .getElementById("nama_kelas2")
+    .addEventListener("input", generateKodeKelas2);
+
+// Panggil fungsi generateKodeKelas setiap kali nilai input berubah
