@@ -358,6 +358,6 @@
         @apply border border-solid border-gray-200 px-1 py-2;
     }
     .tableCellMapel {
-        @apply border border-solid border-gray-200 px-2 py-2 overflow-x-auto max-w-full;
+        @apply border border-solid border-gray-200 px-2 py-1 overflow-x-auto max-w-full;
     }
 }

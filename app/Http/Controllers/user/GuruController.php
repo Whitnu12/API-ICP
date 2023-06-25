@@ -47,7 +47,7 @@ class GuruController extends Controller
 
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string',
-            'npp' => 'required|unique:gurus',
+            'npp' => 'required|unique:gurus|min:18',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
             'jabatan' => 'required|in:guru,tenaga_kependidikan',
@@ -96,7 +96,7 @@ class GuruController extends Controller
     
         $validator = Validator::make($request->all(), [
             'nama' => 'sometimes|required|string',
-            'npp' => 'sometimes|required|string',
+            'npp' => 'sometimes|required|string|min:16',
             'email' => 'sometimes|required|email|unique:users,email,' . $guru->user->id,          
             'jabatan' => 'sometimes|required|in:guru,tenaga_kependidikan',  
             'password_lama' => 'required',

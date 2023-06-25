@@ -109,7 +109,9 @@
                                             <option value="null">Pilih guru</option>
                                         </select>
                                     </div>
-                                    <button type="submit" id="updateButton" onclick="updateMapel($id_2)"                                        class="bg-gray-300 px-10 py-2 mt-4 block">Update</button>
+                                    <button type="submit" id="updateButton" onclick="updateMapel($id_2)" type="submit"
+                                        class="bg-green-400 text-white text-lg px-10 py-2 mt-4 block w-full ">
+                                        Update</button>
                                 </form>
                             </div>
                         </div>

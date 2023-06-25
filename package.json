@@ -25,13 +25,8 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "chosen-js": "^1.8.7",
         "magnific-popup": "^1.1.0",
-        "minimist": "^1.2.8",
-        "optimist": "^0.6.1",
         "resolution": "^1.0.5",
-        "select2": "^4.1.0-rc.0",
-        "selectize": "^0.12.6",
-        "sifter": "^0.5.4"
+        "select2": "^4.1.0-rc.0"
     }
 }

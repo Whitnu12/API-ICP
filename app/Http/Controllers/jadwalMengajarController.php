@@ -69,12 +69,12 @@ class jadwalMengajarController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'id_guru' => 'required',
-            'id_mapel' => 'required',
-            'id_kelas' => 'required',
-            'hari' => 'required',
-            'jam_mulai' => 'required',
-            'jam_selesai' => 'required',
+        'id_guru' => 'required|exists:gurus,id_guru',
+        'kode_mapel' => 'required|exists:mata_pelajarans,kode_mapel',
+        'id_kelas' => 'required|exists:kelas,id_kelas',
+        'hari' => 'required|in:senin,selasa,rabu,kamis,jumat,sabtu,minggu',
+        'jam_mulai' => 'required',
+        'jam_belajar' => 'required|integer',
         ]);
 
         $jadwalMengajar = JadwalMengajar::findOrFail($id);

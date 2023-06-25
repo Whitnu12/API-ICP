@@ -1,27 +1,53 @@
 <head>
-    @vite(['resources/js/mengajar.js'])
+    
 </head>
 
 @extends('layout.admin_layout')
 @section('content')
     <div class="flex gap-2 justify-between">
         <div>
-            <table id="mengajarTable" class=" text-sm text-left text-gray-500">
+            <table id="guruTable" class="text-sm text-left text-gray-500 ">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
-                        <th class="tableCellid py-2">No</th>
+                        <th class="py-3 tableCellid">No</th>
+                        {{-- <th class="px-2 tableCellid">id</th> --}}
                         <th class="tableCellMapel">Mata Pelajaran</th>
-                        <th class="tableCellMapel">Kelas</th>
-                        <th class="tableCellMapel">Pengajar</th>
-                        <th class="tableCellMapel">Hari</th>
-                        <th class="tableCellMapel">Mulai</th>
-                        <th class="tableCellMapel">Selesai</th>
-                        <th class="tableCellMapel">Bobot</th>
+                        <th class="tableCellMapel">Guru</th>
+                        <th class="tableCellMapel">Capaian Jam</th>
                         <th class="tableCellAction" colspan="2">Action</th>
                     </tr>
                 </thead>
-                <tbody id="mengajarBody" class="">
+                <tbody id="guruBody">
+                    <!-- Data guru akan ditambahkan di sini -->
+                    <tr>
+                        <td class="tableCellMapel"> 1 </td>
+                        <td class="tableCellMapel"> Pendidikan Agama Islam </td>
+                        <td class="tableCellMapel"> Budi </td>
+                        <td class="tableCellMapel">
+                            <div class="w-56">
+                                <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                                    <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+                                        style="width: 45%"> 45/100</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td colspan="2" class="tableCellAction">Action</td>
+                    </tr>
+                    <tr>
+                        <td class="tableCellMapel"> 1</td>
+                        <td class="tableCellMapel"> Pendidikan Agama Islam </td>
+                        <td class="tableCellMapel"> Yanto </td>
+                        <td class="tableCellMapel">
+                            <div class="w-56">
+                                <div class="w-full bg-gray-200 rounded-full">
+                                    <div class="bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+                                        style="width: 65%"> 65/100</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td colspan="2" class="tableCellAction">Action</td>
 
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -50,7 +76,7 @@
                         <div class="hidden p-4 rounded-lg bg-white " id="profile" role="tabpanel"
                             aria-labelledby="profile-tab">
                             <div class=" p-4 w-full">
-                                <h2 class="text-4xl font-medium pb-2"> Tambah Jadwal </h2>
+                                <h2 class="text-2xl font-medium pb-2"> Tambah Capaian Jam Belajar </h2>
                                 <form id="tambahMengajar">
                                     @csrf
                                     <div class="my-2">
@@ -103,7 +129,7 @@
                         <div class="hidden p-4 rounded-lg bg-white" id="dashboard" role="tabpanel"
                             aria-labelledby="dashboard-tab">
                             <div class="  p-4 w-full">
-                                <h2 class="text-4xl font-medium pb-2"> Rubah Jadwal</h2>
+                                <h2 class="text-4xl font-medium pb-2"> Rubah Kelas</h2>
                                 <form id="rubahMengajar">
                                     @csrf
                                     <div class="my-2">
@@ -163,9 +189,5 @@
                 </div>
             </div>
         </div>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
-            integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    @endsection
+    </div>
+@endsection

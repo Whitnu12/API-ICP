@@ -83,7 +83,8 @@
                                     </div>
 
 
-                                    <button type="submit" class="bg-gray-300 px-10 py-2 mt-4 block">Tambah</button>
+                                    <button type="submit"
+                                        class="bg-green-400 text-white text-lg px-10 py-2 mt-4 block w-full ">Tambah</button>
                                 </form>
                             </div>
                         </div>
@@ -126,7 +127,8 @@
                                             class="shadow appearance-none border-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                             readonly>
                                     </div>
-                                    <button type="submit" class="bg-gray-300 px-10 py-2 mt-4 block">Tambah</button>
+                                    <button type="submit"
+                                        class="bg-green-400 text-white text-lg px-10 py-2 mt-4 block w-full ">Update</button>
                                 </form>
                             </div>
                         </div>

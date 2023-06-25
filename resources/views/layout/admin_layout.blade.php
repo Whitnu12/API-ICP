@@ -13,7 +13,7 @@
 
 <body>
 
-    <nav class="fixed top-0 z-50 w-full bg-white shadow-md border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+    <nav class="fixed top-0 z-50 w-full bg-white border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
             <div class="flex items-center justify-between">
                 <div class="flex items-center justify-start ml-20">
@@ -30,8 +30,10 @@
                             Sekolah
                         @elseif(request()->is('dashboard/laporan'))
                             Laporan
-                        @elseif(request()->is('dashboard/jadwal_mengajar'))
+                        @elseif(request()->is('dashboard/jadwal-mengajar'))
                             Jadwal
+                        @elseif(request()->is('dashboard/capaian-jam'))
+                            Capaian Jam Pelajaran
                         @else
                             Judul Halaman Lain
                         @endif
@@ -52,7 +54,7 @@
             </div>
         </div>
     </nav>
-    <aside class="fixed top-0 left-0 z-50 w-fit h-screen bg-white shadow-md">
+    <aside class="fixed top-0 left-0 z-50 h-screen bg-white shadow-md w-fit">
         <div class="h-full px-2 pb-2">
             <div class="flex items-center">
                 <div class="pt-3 ">
@@ -94,7 +96,7 @@
                     </ul>
                 </div>
             </div>
-            <ul class="grid relative top-1/4">
+            <ul class="relative grid top-1/4">
                 <li>
                     <div class="container block" data-tooltip-target="tooltip-home" data-tooltip-placement="right">
                         <a href="{{ route('dashboard') }}"
@@ -116,7 +118,7 @@
                 </li>
                 <li>
                     <div class="container block" data-tooltip-target="tooltip-guru" data-tooltip-placement="right">
-                        <a href="{{ route('ptk') }}"
+                        <a href="{{ route('ptk') }}" id="ptk"
                             class="block items-center p-2 {{ Request::is('ptk') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
@@ -146,7 +148,7 @@
                             </svg>
                             <div id="tooltip-mapel" role="tooltip"
                                 class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                <span class="overflow-auto">mata pelajaran</span>
+                                <span class="overflow-auto">mata_pelajaran</span>
                                 <div class="tooltip-arrow" data-popper-arrow></div>
                             </div>
                         </a>
@@ -211,6 +213,26 @@
                         </a>
                     </div>
                 </li>
+
+                <li>
+                    <div class="container block" data-tooltip-target="tooltip-jam" data-tooltip-placement="right">
+                        <a href="{{ route('capaian_jam') }}"
+                            class="block items-center p-2 {{ Request::is('home') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                class="w-5 h-5 text-gray-500">
+                                <path fill-rule="evenodd"
+                                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z"
+                                    clip-rule="evenodd" />
+                            </svg>
+
+                            <div id="tooltip-jam" role="tooltip"
+                                class="absolute text-clip z-10 invisible inline px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">
+                                Jam_Pelajaran
+                                <div class="tooltip-arrow" data-popper-arrow></div>
+                            </div>
+                        </a>
+                    </div>
+                </li>
                 <li>
                     <div class="container block" data-tooltip-target="tooltip-sekolah"
                         data-tooltip-placement="right">
@@ -233,11 +255,12 @@
                         </a>
                     </div>
                 </li>
+
             </ul>
         </div>
     </aside>
     <div id="toast-alert"
-        class="invisible flex fixed bottom-5 right-5 items-center w-full max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
+        class="fixed flex items-center invisible w-full max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x divide-gray-200 rounded-lg shadow bottom-5 right-5 dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
         role="alert">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
             class="w-5 h-5 text-green-500">
@@ -250,7 +273,7 @@
         <div id="pesan" class="pl-4 text-sm font-normal">Message sent successfully.</div>
     </div>
     <div class="p-4 ml-20">
-        <div class="p-4  rounded-lg dark:border-gray-700 mt-14">
+        <div class="p-4 rounded-lg dark:border-gray-700 mt-14">
             @yield('content')
         </div>
     </div>
