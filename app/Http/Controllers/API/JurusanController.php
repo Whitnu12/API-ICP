@@ -43,9 +43,9 @@ class JurusanController extends Controller
 
     public function hapus_jurusan($id)
     {
-    $jurusan = jurusan::findOrFail($id);
-    $jurusan->delete();
-    return response()->json(['message' => 'Jurusan berhasil dihapus'], 204);
+        $jurusan = jurusan::findOrFail($id);
+        $jurusan->delete();
+        return response()->json(['message' => 'Jurusan berhasil dihapus'], 204);
     }
 
 

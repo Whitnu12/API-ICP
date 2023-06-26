@@ -11,6 +11,7 @@ use App\Http\Controllers\GambarController;
 use App\Http\Controllers\API\MultipleUploadController;
 use App\Http\Controllers\JadwalMengajarController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\capaianJamController;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,5 +98,12 @@ Route::prefix('laporan')->group(function(){
     Route::post('/create', [LaporanController::class, 'store']);
     Route::put('/{id}', [LaporanController::class, 'update']);
     Route::delete('/{id}', [LaporanController::class, 'delete']);
+});
+
+Route::prefix('capaian-jam')->group(function(){
+    Route::get('/', [capaianJamController::class,'index']);
+    Route::post('/add', [capaianJamController::class,'store']);
+    Route::patch('/{id}', [capaianJamController::class,'update']);
+    Route::get('/{id}', [capaianJamController::class,'show']);
 });
 

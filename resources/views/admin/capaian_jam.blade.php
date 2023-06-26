@@ -1,12 +1,12 @@
 <head>
-    
+    @vite(['resources/js/capaian_jam.js'])
 </head>
 
 @extends('layout.admin_layout')
 @section('content')
     <div class="flex gap-2 justify-between">
         <div>
-            <table id="guruTable" class="text-sm text-left text-gray-500 ">
+            <table id="capaianTable" class="text-sm text-left text-gray-500 ">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                         <th class="py-3 tableCellid">No</th>
@@ -17,9 +17,9 @@
                         <th class="tableCellAction" colspan="2">Action</th>
                     </tr>
                 </thead>
-                <tbody id="guruBody">
+                <tbody id="capaianBody">
                     <!-- Data guru akan ditambahkan di sini -->
-                    <tr>
+                    {{-- <tr>
                         <td class="tableCellMapel"> 1 </td>
                         <td class="tableCellMapel"> Pendidikan Agama Islam </td>
                         <td class="tableCellMapel"> Budi </td>
@@ -47,7 +47,7 @@
                         </td>
                         <td colspan="2" class="tableCellAction">Action</td>
 
-                    </tr>
+                    </tr> --}}
                 </tbody>
             </table>
         </div>

@@ -36,15 +36,33 @@
     <div id="tabContentExample">
         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="profile-example" role="tabpanel"
             aria-labelledby="profile-tab-example">
-            <form id="addJurusan">
-                @csrf
+            <div class="flex gap-10 justify-around">
                 <div>
-                    <label for="jurusan">Jurusan:</label>
-                    <input type="text" name="jurusan" id="jurusan" placeholder="Jurusan" required>
-                </div>
-                <button type="submit">Tambah</button>
-            </form>
+                    <table id="jurusanTable" class=" text-sm text-left text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th class="tableCellid py-2">No</th>
+                                <th class="tableCellMapel">Jurusan</th>
+                                <th class="tableCellAction" colspan="2">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="jurusanBody" class="">
 
+                        </tbody>
+                    </table>
+                </div>
+                <form id="addJurusan" class="bg-green-200 py-2 px-5">
+                    <h1 class="text-2xl pb-2 font-semibold"> Tambah Jurusan</h1>
+                    @csrf
+                    <div>
+                        <label for="jurusan" class="pb-3">Jurusan</label>
+                        <input type="text" name="jurusan" id="jurusan" placeholder="Tambah Jurusan" required
+                            class="shadow appearance-none border-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                    <button type="submit"
+                        class="bg-green-400 text-white text-lg px-10 py-2 mt-4 block w-full ">Tambah</button>
+                </form>
+            </div>
 
 
 
@@ -73,24 +91,29 @@
         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="dashboard-example" role="tabpanel"
             aria-labelledby="dashboard-tab-example">
             <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong
-                    class="font-medium text-gray-800 dark:text-white">Dashboard tab's associated content</strong>. Clicking
-                another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control
+                    class="font-medium text-gray-800 dark:text-white">Dashboard tab's associated content</strong>.
+                Clicking
+                another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
+                control
                 the content visibility and styling.</p>
         </div>
         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="settings-example" role="tabpanel"
             aria-labelledby="settings-tab-example">
             <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong
-                    class="font-medium text-gray-800 dark:text-white">Settings tab's associated content</strong>. Clicking
-                another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control
+                    class="font-medium text-gray-800 dark:text-white">Settings tab's associated content</strong>.
+                Clicking
+                another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
+                control
                 the content visibility and styling.</p>
         </div>
         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="contacts-example" role="tabpanel"
             aria-labelledby="contacts-tab-example">
             <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong
-                    class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>. Clicking
-                another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control
+                    class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>.
+                Clicking
+                another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
+                control
                 the content visibility and styling.</p>
         </div>
     </div>
-
 @endsection

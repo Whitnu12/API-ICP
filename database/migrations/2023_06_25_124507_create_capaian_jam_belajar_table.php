@@ -11,21 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('guru_mata_pelajaran', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_guru');
-            $table->unsignedBigInteger('kode_mapel');
-            $table->timestamps();
+        Schema::create('capaian_jam_belajar', function (Blueprint $table) {
+            $table->id("id_capaian");
+            $table->unsignedBigInteger("id_guru");
+            $table->unsignedBigInteger("kode_mapel");
+            $table->integer("capaian_jam");
+            $table->integer("jam_tercapai");
             $table->foreign('id_guru')->references('id_guru')->on('gurus')->onDelete('cascade');
             $table->foreign('kode_mapel')->references('kode_mapel')->on('mata_pelajarans')->onDelete('cascade');
+            $table->timestamps();
         });
-    } 
+    }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('guru_mata_pelajaran');
+        Schema::dropIfExists('capaian_jam_belajar');
     }
 };
