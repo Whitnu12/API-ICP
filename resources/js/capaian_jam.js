@@ -1,6 +1,81 @@
 import { getApiUrl } from "./api.js";
 import { showAlert } from "./toast.js";
 
+function deleteCapaian(id) {
+    fetch(getApiUrl(`capaian-jam/${id}`), {
+        method: "DELETE",
+    })
+        .then((response) => {
+            if (response.ok) {
+                showAlert("capaian jam berhasil dihapus");
+                console.log("capaian jam berhasil dihapus");
+                getDataCapaian();
+            } else {
+                showAlert("capaian jam gagal dihapus");
+                console.log("capaian jam gagal dihapus");
+            }
+        })
+        .catch((error) => console.error("Error:", error));
+}
+
+function rubahDataCapaian() {
+    const guru = document.getElementById("guru2").value;
+    const mapel = document.getElementById("nama_mapel2").value;
+    const capaian = document.getElementById("jam_belajar2").value;
+
+    const capaianData = {
+        id_guru: guru,
+        kode_mapel: mapel,
+        capaian_jam: capaian,
+    };
+
+    fetch(getApiUrl("capaian-jam/update"), {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: JSON.stringify(capaianData),
+    }).then((response) => {
+        if (response.ok) {
+            showAlert("capaian jam berhasil diubah");
+            console.log("capaian jam berhasil diubah");
+            getDataCapaian();
+        } else {
+            showAlert("capaian jam gagal diubah");
+            console.log("capaian jam gagal diubah");
+        }
+    });
+}
+
+function addDataCapaian() {
+    const guru = document.getElementById("guru").value;
+    const nama_mapel = document.getElementById("nama_mapel").value;
+    const capaian_jam = document.getElementById("jam_belajar").value;
+
+    const capaianData = {
+        id_guru: guru,
+        kode_mapel: nama_mapel,
+        capaian_jam: capaian_jam,
+    };
+
+    fetch(getApiUrl("capaian-jam/add"), {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(capaianData),
+    }).then((response) => {
+        if (response.ok) {
+            showAlert("capaian jam berhasil ditambahkan");
+            console.log("capaian jam berhasil ditambahkan");
+            getDataCapaian();
+        } else {
+            showAlert("capaian jam gagal ditambahkan");
+            console.log("capaian jam gagal ditambahkan");
+        }
+    });
+}
+
 let capaianData = [];
 
 function getDataCapaian() {
@@ -42,7 +117,6 @@ function getDataLongPolling() {
 
 // Memulai long polling saat halaman dimuat
 getDataLongPolling();
-
 getDataCapaian();
 
 function renderCapaian(data) {
@@ -70,13 +144,13 @@ function renderCapaian(data) {
             // Kolom ID Guru
             const idGuruCell = document.createElement("td");
             idGuruCell.classList.add("tableCellid");
-            idGuruCell.textContent = capaian.nama_guru;
+            idGuruCell.textContent = capaian.nama_mapel;
             row.appendChild(idGuruCell);
 
             // Kolom Kode Mapel
             const kodeMapelCell = document.createElement("td");
             kodeMapelCell.classList.add("tableCellMapel");
-            kodeMapelCell.textContent = capaian.nama_mapel;
+            kodeMapelCell.textContent = capaian.nama_guru;
             row.appendChild(kodeMapelCell);
 
             // Kolom Capaian Jam
@@ -126,7 +200,7 @@ function renderCapaian(data) {
                     </div>
                   `;
             deleteButton.addEventListener("click", () => {
-                deleteJadwal(mengajar.id_mengajar);
+                deleteCapaian(capaian.id_capaian);
             });
             deleteCell.appendChild(deleteButton);
             row.appendChild(deleteCell);
@@ -144,7 +218,7 @@ function renderCapaian(data) {
                     </div>
                   `;
             updateButton.addEventListener("click", () => {
-                fillFormWithJadwal(mengajar.id_mengajar);
+                fillFormCapaian(capaian.id_capaian);
             });
             updateCell.appendChild(updateButton);
             row.appendChild(updateCell);
@@ -162,3 +236,151 @@ function renderCapaian(data) {
         capaianBody.appendChild(row);
     }
 }
+
+function populateGuruDropdown() {
+    // Ganti URL_API dengan URL API yang sesuai
+    fetch(getApiUrl("guru"))
+        .then((response) => response.json())
+        .then((data) => {
+            const dropdown = document.getElementById("guru");
+            // Menghapus opsi sebelumnya
+            dropdown.innerHTML = "";
+
+            // Menambahkan opsi "Pilih Jurusan"
+            const option = document.createElement("option");
+            option.value = "null";
+            option.text = "Pilih guru";
+            dropdown.appendChild(option);
+
+            // Menambahkan opsi dari data API
+            data.data.forEach((guru) => {
+                const option = document.createElement("option");
+                option.value = guru.id_guru;
+                option.text = guru.nama;
+                dropdown.appendChild(option);
+            });
+        })
+        .catch((error) => {
+            console.log("Terjadi kesalahan:", error);
+        });
+}
+
+function populateMapelDropdown() {
+    // Ganti URL_API dengan URL API yang sesuai
+    fetch(getApiUrl("mata-pelajaran"))
+        .then((response) => response.json())
+        .then((data) => {
+            const dropdown = document.getElementById("nama_mapel");
+
+            // Menghapus opsi sebelumnya
+            dropdown.innerHTML = "";
+
+            // Menambahkan opsi "Pilih Jurusan"
+            const option = document.createElement("option");
+            option.value = "null";
+            option.text = "Pilih Mapel";
+            dropdown.appendChild(option);
+
+            // Menambahkan opsi dari data API
+            data.forEach((mataPelajaran) => {
+                const option = document.createElement("option");
+                option.value = mataPelajaran.kode_mapel;
+                option.text = mataPelajaran.nama_mapel;
+                dropdown.appendChild(option);
+            });
+        })
+        .catch((error) => {
+            console.log("Terjadi kesalahan:", error);
+        });
+}
+
+function populateGuru2Dropdown() {
+    // Ganti URL_API dengan URL API yang sesuai
+    fetch(getApiUrl("guru"))
+        .then((response) => response.json())
+        .then((data) => {
+            const dropdown = document.getElementById("guru2");
+            // Menghapus opsi sebelumnya
+            dropdown.innerHTML = "";
+
+            // Menambahkan opsi "Pilih Jurusan"
+            const option = document.createElement("option");
+            option.value = "null";
+            option.text = "Pilih guru";
+            dropdown.appendChild(option);
+
+            // Menambahkan opsi dari data API
+            data.data.forEach((guru) => {
+                const option = document.createElement("option");
+                option.value = guru.id_guru;
+                option.text = guru.nama;
+                dropdown.appendChild(option);
+            });
+        })
+        .catch((error) => {
+            console.log("Terjadi kesalahan:", error);
+        });
+}
+
+function populateMapel2Dropdown() {
+    // Ganti URL_API dengan URL API yang sesuai
+    fetch(getApiUrl("mata-pelajaran"))
+        .then((response) => response.json())
+        .then((data) => {
+            const dropdown = document.getElementById("nama_mapel2");
+
+            // Menghapus opsi sebelumnya
+            dropdown.innerHTML = "";
+
+            // Menambahkan opsi "Pilih Jurusan"
+            const option = document.createElement("option");
+            option.value = "null";
+            option.text = "Pilih Mapel";
+            dropdown.appendChild(option);
+
+            // Menambahkan opsi dari data API
+            data.forEach((mataPelajaran) => {
+                const option = document.createElement("option");
+                option.value = mataPelajaran.kode_mapel;
+                option.text = mataPelajaran.nama_mapel;
+                dropdown.appendChild(option);
+            });
+        })
+        .catch((error) => {
+            console.log("Terjadi kesalahan:", error);
+        });
+}
+$(document).ready(function () {
+    $("#nama_mapel").select2();
+});
+
+$(document).ready(function () {
+    $("#guru").select2();
+});
+
+$(document).ready(function () {
+    $("#nama_mapel2").select2();
+});
+
+$(document).ready(function () {
+    $("#guru2").select2();
+});
+
+document
+    .getElementById("tambahCapaian")
+    .addEventListener("submit", function (event) {
+        event.preventDefault();
+        addDataCapaian();
+    });
+
+document
+    .getElementById("rubahCapaian")
+    .addEventListener("submit", function (event) {
+        event.preventDefault();
+        rubahDataCapaian();
+    });
+
+populateMapelDropdown();
+populateMapel2Dropdown();
+populateGuruDropdown();
+populateGuru2Dropdown();

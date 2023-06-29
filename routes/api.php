@@ -103,7 +103,9 @@ Route::prefix('laporan')->group(function(){
 Route::prefix('capaian-jam')->group(function(){
     Route::get('/', [capaianJamController::class,'index']);
     Route::post('/add', [capaianJamController::class,'store']);
+    Route::delete('{id}', [capaianJamController::class, 'destroy']);
     Route::patch('/{id}', [capaianJamController::class,'update']);
+    Route::patch('/update/{id}', [capaianJamController::class,'updateAll']);
     Route::get('/{id}', [capaianJamController::class,'show']);
 });
 

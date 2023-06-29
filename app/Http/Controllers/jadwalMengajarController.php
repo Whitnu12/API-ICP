@@ -14,19 +14,34 @@ class jadwalMengajarController extends Controller
         $jadwalMengajar->load('kelas:id_kelas,kode_kelas');
         $jadwalMengajar->load('guru:id_guru,nama');
         $jadwalMengajar->load('mapel:kode_mapel,nama_mapel');
+
+        $jadwalMengajar->transform(function ($jadwal) {
+            $jadwal->jam_mulai = substr($jadwal->jam_mulai, 0, 5); // Extract only the hours and minutes (e.g., "12:50")
+            $jadwal->jam_selesai = substr($jadwal->jam_selesai, 0, 5); // Extract only the hours and minutes (e.g., "14:30")
+            return $jadwal;
+        });
     
         return response()->json($jadwalMengajar);
     }
 
-    public function show($id)
+    public function show($id_guru)
     {
-        $jadwalMengajar = JadwalMengajar::findOrFail($id);
-        $jadwalMengajar->load('kelas:id_kelas,kode_kelas');
-        $jadwalMengajar->load('guru:id_guru,nama');
-        $jadwalMengajar->load('mapel:kode_mapel,nama_mapel');
+        $jadwalMengajar = JadwalMengajar::where('id_guru', $id_guru)
+            ->with('kelas:id_kelas,kode_kelas')
+            ->with('guru:id_guru,nama')
+            ->with('mapel:kode_mapel,nama_mapel')
+            ->select('id_mengajar', 'kode_mapel', 'id_kelas', 'id_guru', 'jam_mulai', 'jam_selesai', 'hari', 'jam_belajar', 'created_at', 'updated_at')
+            ->get();
+
+        // Update the 'jamMulai' and 'jamSelesai' formats
+        $jadwalMengajar->transform(function ($jadwal) {
+            $jadwal->jam_mulai = substr($jadwal->jam_mulai, 0, 5); // Extract only the hours and minutes (e.g., "12:50")
+            $jadwal->jam_selesai = substr($jadwal->jam_selesai, 0, 5); // Extract only the hours and minutes (e.g., "14:30")
+            return $jadwal;
+        });
+        
         return response()->json($jadwalMengajar);
     }
-
     public function store(Request $request)
 {
     $validator = Validator::make($request->all(), [

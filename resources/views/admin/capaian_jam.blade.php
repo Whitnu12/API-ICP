@@ -77,30 +77,12 @@
                             aria-labelledby="profile-tab">
                             <div class=" p-4 w-full">
                                 <h2 class="text-2xl font-medium pb-2"> Tambah Capaian Jam Belajar </h2>
-                                <form id="tambahMengajar">
+                                <form id="tambahCapaian">
                                     @csrf
-                                    <div class="my-2">
-                                        <label for="kelas">Kelas </label>
-                                        <Select id="kelas" style="width:100%;">
-                                        </Select>
-                                    </div>
                                     <div class="my-2">
                                         <label for="nama_mapel" class="block mb-2 text-sm font-medium text-gray-900 ">Mata
                                             Pelajaran</label>
                                         <select id="nama_mapel" style="width:100%;">
-                                        </select>
-                                    </div>
-                                    <div class="my-2">
-                                        <label for="hari"
-                                            class="block mb-2 text-sm font-medium text-gray-900 ">Hari</label>
-                                        <select id="hari" style="width:100%;">
-                                            <option value="null"> Pilih Hari </option>
-                                            <option value="senin">Senin</option>
-                                            <option value="selasa">Selasa</option>
-                                            <option value="rabu">Rabu</option>
-                                            <option value="kamis">Kamis</option>
-                                            <option value="jumat">Jum'at</option>
-                                            <option value="sabtu">Sabtu</option>
                                         </select>
                                     </div>
                                     <div class="my-2">
@@ -109,13 +91,9 @@
                                             class="shadow appearance-none border-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                         </select>
                                     </div>
+
                                     <div class="my-2">
-                                        <label for="jam_mulai"> mulai kelas (jam) </label>
-                                        <input type="time" id="jam_mulai"
-                                            class="shadow appearance-none border-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    </div>
-                                    <div class="my-2">
-                                        <label for="jam_belajar"> Bobot jam belajar </label>
+                                        <label for="jam_belajar"> target jam belajar </label>
                                         <input type="number" id="jam_belajar"
                                             class="shadow appearance-none border-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                     </div>
@@ -130,37 +108,12 @@
                             aria-labelledby="dashboard-tab">
                             <div class="  p-4 w-full">
                                 <h2 class="text-4xl font-medium pb-2"> Rubah Kelas</h2>
-                                <form id="rubahMengajar">
+                                <form id="rubahCapaian">
                                     @csrf
                                     <div class="my-2">
-                                        <label for="id_mengajar2"> ID </label>
-                                        <input type="text" id="id_mengajar2" name="id_kelas2"
-                                            class="shadow appearance-none border-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                            readonly>
-                                    </div>
-                                    <div class="my-2">
-                                        <label for="kelas2">Kelas </label>
-                                        <Select id="kelas2" style="width:100%;">
-                                        </Select>
-                                    </div>
-                                    <div class="my-2">
-                                        <label for="nama_mapel2"
-                                            class="block mb-2 text-sm font-medium text-gray-900 ">Mata
+                                        <label for="nama_mapel2" class="block mb-2 text-sm font-medium text-gray-900 ">Mata
                                             Pelajaran</label>
                                         <select id="nama_mapel2" style="width:100%;">
-                                        </select>
-                                    </div>
-                                    <div class="my-2">
-                                        <label for="hari2"
-                                            class="block mb-2 text-sm font-medium text-gray-900 ">Hari</label>
-                                        <select id="hari2" style="width:100%;">
-                                            <option value="null"> Pilih Hari </option>
-                                            <option value="senin">Senin</option>
-                                            <option value="selasa">Selasa</option>
-                                            <option value="rabu">Rabu</option>
-                                            <option value="kamis">Kamis</option>
-                                            <option value="jumat">Jum'at</option>
-                                            <option value="sabtu">Sabtu</option>
                                         </select>
                                     </div>
                                     <div class="my-2">
@@ -169,19 +122,16 @@
                                             class="shadow appearance-none border-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                         </select>
                                     </div>
+
                                     <div class="my-2">
-                                        <label for="jam_mulai2"> mulai kelas (jam) </label>
-                                        <input type="time" id="jam_mulai2"
-                                            class="shadow appearance-none border-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                    </div>
-                                    <div class="my-2">
-                                        <label for="jam_belaja2r"> Bobot jam belajar </label>
+                                        <label for="jam_belajar2"> target jam belajar </label>
                                         <input type="number" id="jam_belajar2"
                                             class="shadow appearance-none border-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                     </div>
 
+
                                     <button type="submit"
-                                        class="bg-green-400 text-white text-lg px-10 py-2 mt-4 block w-full ">Update</button>
+                                        class="bg-green-400 text-white text-lg px-10 py-2 mt-4 block w-full ">Tambah</button>
                                 </form>
                             </div>
                         </div>
@@ -190,4 +140,9 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+        integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 @endsection

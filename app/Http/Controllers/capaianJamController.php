@@ -28,19 +28,28 @@ class capaianJamController extends Controller
                 'nama_mapel' => $mapel ? $mapel->nama_mapel : '',
                 'capaian_jam' => $item->capaian_jam,
                 'jam_tercapai' => $item->jam_tercapai,
-                'created_at' => $item->created_at,
-                'updated_at' => $item->updated_at
             ];
         }
     
         return response()->json(['message' => 'Data Capaian Jam Belajar berhasil diambil', 'data' => $data]);
     }
 
-    public function show($id)
+    public function show($id_guru)
     {
-        $capaian = capaian_jam::findOrFail($id);
+        $capaian = capaian_jam::where('id_guru', $id_guru)->get();
 
-        return response()->json(['message'=> 'data capaian berhasil diambil','data' => $capaian], 200);
+        if ($capaian->isEmpty()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data capaian tidak ditemukan'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data capaian berhasil diambil',
+            'data' => $capaian
+        ], 200);
     }
 
     public function store(Request $request)
@@ -87,10 +96,46 @@ class capaianJamController extends Controller
         return response()->json(['message' => 'Data capaian jam berhasil diupdate', 'data' => $capaian], 200);
     }
 
+    public function updateAll(Request $request, $id){
+
+        $capaian = capaian_jam::find($id);
+
+        if(!$capaian){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data capaian tidak ditemukan'
+            ], 404);
+        }
+
+        $validator = Validator::make($request->all(),[
+            'id_guru' => 'sometimes|exists:gurus,id_guru',
+            'kode_mapel' => 'sometimes|exists:mata_pelajarans,kode_mapel',
+            'capaian_jam' => 'sometimes',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        $capaian->id_guru = $request->input('id_guru');
+        $capaian->kode_mapel = $request->input('kode_mapel');
+        $capaian->capaian_jam = $request->input('capaian_jam');
+
+
+        $capaian->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Data capaian berhasil diperbarui',
+            'data' => $capaian
+        ], 200);
+
+    }
+
     public function destroy($id)
     {
         $capaian = capaian_jam::findOrFail($id);
         $capaian->delete();
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Capaian berhasil dihapus'], 200);
     }
 }
