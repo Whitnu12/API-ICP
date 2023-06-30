@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/repositories/API-ICP
+    - /bin/cp -a * $DEPLOYPATHgit 
