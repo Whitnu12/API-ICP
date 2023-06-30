@@ -36,7 +36,9 @@ class capaianJamController extends Controller
 
     public function show($id_guru)
     {
-        $capaian = capaian_jam::where('id_guru', $id_guru)->get();
+        $capaian = capaian_jam::where('id_guru', $id_guru)
+            ->with('mapel:kode_mapel,nama_mapel')
+            ->get();
 
         if ($capaian->isEmpty()) {
             return response()->json([
@@ -51,7 +53,6 @@ class capaianJamController extends Controller
             'data' => $capaian
         ], 200);
     }
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
