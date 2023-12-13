@@ -481,14 +481,15 @@ const form = document.getElementById("rubahMengajar");
 form.addEventListener("submit", function (event) {
     event.preventDefault();
     updateJadwal();
+    form.reset();
 });
 
-document
-    .getElementById("tambahMengajar")
-    .addEventListener("submit", function (event) {
-        event.preventDefault();
-        addJadwal();
-    });
+const formTambah = document.getElementById("tambahMengajar");
+formTambah.addEventListener("submit", function (event) {
+    event.preventDefault();
+    addJadwal();
+    formTambah.reset();
+});
 
 $(document).ready(function () {
     $("#kelas").select2();

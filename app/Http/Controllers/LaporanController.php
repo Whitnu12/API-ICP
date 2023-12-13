@@ -117,7 +117,7 @@ public function show($id)
     
     protected function getGambarURL($path)
     {
-        $serverURL = 'http://192.168.100.6/laravel-icp2/public/storage'; // Ganti dengan URL server Anda
+        $serverURL = 'http://192.168.110.20/laravel-icp2/public/storage'; // Ganti dengan URL server Anda
         $gambarURL = $serverURL . '/' . $path;
     
         return $gambarURL;
