@@ -10,20 +10,14 @@ class MataPelajaran extends Model
     use HasFactory;
     protected $table = 'mata_pelajarans';
 
+    protected $primaryKey = 'id_mapel';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
-    protected $primaryKey = 'kode_mapel';
-
-    protected $fillable = ['nama_mapel', 'id_jurusan',  'id_guru'];
-
-    public function jurusan()
-    {
-        return $this->belongsTo(jurusan::class, 'id_jurusan', 'id_jurusan');
-    }
+    protected $fillable = ['id_guru', 'nama_mapel', 'enroll_code', 'created_by'];
 
     public function guru()
     {
-        return $this->belongsToMany(guru::class, 'guru_mata_pelajaran', 'kode_mapel', 'id_guru');
+        return $this->belongsTo(Guru::class, 'id_guru');
     }
-    
 }
-

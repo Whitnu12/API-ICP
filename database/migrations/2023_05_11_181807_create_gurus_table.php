@@ -15,12 +15,7 @@ return new class extends Migration
             $table->id('id_guru');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('nama')->nullable();
-            $table->string('npp')->unique();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('jabatan')->nullable()->default(null)->validate(['guru', 'tenaga_kependidikan']);
-            $table->string('foto_profil')->nullable();
+            $table->string('nip')->unique();
             $table->timestamps();
         });
     }

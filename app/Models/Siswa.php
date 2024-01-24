@@ -11,6 +11,13 @@ class Siswa extends Model
 
     protected $table = 'siswa'; // Sesuaikan dengan nama tabel yang Anda tentukan
 
-    protected $fillable = ['nama', 'nis', 'jurusan', 'email', 'nomor_telepon','jenis_kelamin'];
+    protected $fillable = ['nis'];
     protected $primaryKey = 'id_siswa';
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
 }

@@ -10,12 +10,11 @@ return new class() extends Migration {
      */
     public function up(): void
     {
-        Schema::create('siswa', function (Blueprint $table) {
-            $table->id('id_siswa');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('nis')->unique();
-            $table->timestamps();
+        Schema::create('kuis', function (Blueprint $table) {
+            $table->id('id_kuis');
+            $table->string('nama_kuis');
+            $table->unsignedBigInteger('id_mapel');
+            $table->foreign('id_mapel')->references('id_mapel')->on('mata_pelajarans')->onDelete('cascade');
         });
     }
 
@@ -24,6 +23,6 @@ return new class() extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('siswa');
+        Schema::dropIfExists('kuis');
     }
 };

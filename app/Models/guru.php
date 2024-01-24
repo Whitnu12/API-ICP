@@ -8,18 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class guru extends Model
 {
     use HasFactory;
-    protected $fillable = ['nama', 'npp', 'email', 'password', 'jabatan', 'foto_profil'];
+    protected $fillable = ['nip'];
 
     protected $primaryKey = 'id_guru';
-
-    public function mataPelajarans()
-    {
-        return $this->belongsToMany(MataPelajaran::class, 'guru_mata_pelajaran', 'id_guru', 'kode_mapel');
-    }
     
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 }

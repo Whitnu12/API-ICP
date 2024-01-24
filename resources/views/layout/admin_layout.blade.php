@@ -20,22 +20,8 @@
                     <h1 class="text-xl font-semibold">
                         @if (request()->is('dashboard'))
                             Home
-                        @elseif(request()->is('dashboard/ptk'))
-                            PTK
-                        @elseif(request()->is('dashboard/kelas'))
-                            Kelas
                         @elseif(request()->is('dashboard/matapelajaran'))
                             Mata Pelajaran
-                        @elseif(request()->is('dashboard/sekolah'))
-                            Sekolah
-                        @elseif(request()->is('dashboard/laporan'))
-                            Laporan
-                        @elseif(request()->is('dashboard/jadwal-mengajar'))
-                            Jadwal
-                        @elseif(request()->is('dashboard/capaian-jam'))
-                            Capaian Jam Pelajaran
-                        @else
-                            Judul Halaman Lain
                         @endif
                     </h1>
                 </div>
@@ -68,13 +54,13 @@
                 </div>
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
                     id="dropdown-user">
-                    @if (Auth::guard('admin')->check())
+                    @if (Auth::guard('user')->check())
                         <div class="px-4 py-3" role="none">
                             <p class="text-sm text-gray-900 dark:text-white" role="none">
-                                {{ Auth::guard('admin')->user()->nama }}
+                                {{ Auth::guard('user')->user()->nama }}
                             </p>
                             <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                {{ Auth::guard('admin')->user()->email }}
+                                {{ Auth::guard('user')->user()->email }}
                             </p>
                         </div>
                     @endif
@@ -87,7 +73,7 @@
                         <li>
                             <a href="#"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                role="menuitem">Settings</a>
+                                role="menuitem">Mata</a>
                         </li>
                         <li>
                             <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -96,7 +82,7 @@
                     </ul>
                 </div>
             </div>
-            <ul class="relative grid top-1/4">
+            <ul class="relative grid top-1/3">
                 <li>
                     <div class="container block" data-tooltip-target="tooltip-home" data-tooltip-placement="right">
                         <a href="{{ route('dashboard') }}"
@@ -116,24 +102,7 @@
                         </a>
                     </div>
                 </li>
-                <li>
-                    <div class="container block" data-tooltip-target="tooltip-guru" data-tooltip-placement="right">
-                        <a href="{{ route('ptk') }}" id="ptk"
-                            class="block items-center p-2 {{ Request::is('ptk') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                                <path fill-rule="evenodd"
-                                    d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <div id="tooltip-guru" role="tooltip"
-                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                PTK
-                                <div class="tooltip-arrow" data-popper-arrow></div>
-                            </div>
-                        </a>
-                    </div>
-                </li>
+
                 <li>
                     <div class="container block" data-tooltip-target="tooltip-mapel" data-tooltip-placement="right">
                         <a href="{{ route('mapel') }}"
@@ -154,107 +123,12 @@
                         </a>
                     </div>
                 </li>
-                <li>
-                    <div class="container block" data-tooltip-target="tooltip-laporan"
-                        data-tooltip-placement="right">
-                        <a href="{{ route('laporan') }}"
-                            class="block items-center p-2 {{ Request::is('home') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                class="w-6 h-6 {{ Request::is('home') ? 'text-white' : 'text-gray-500' }}">
-                                <path xmlns="http://www.w3.org/2000/svg"
-                                    d="M16.707 2.293A.996.996 0 0 0 16 2H8a.996.996 0 0 0-.707.293l-5 5A.996.996 0 0 0 2 8v8c0 .266.105.52.293.707l5 5A.996.996 0 0 0 8 22h8c.266 0 .52-.105.707-.293l5-5A.996.996 0 0 0 22 16V8a.996.996 0 0 0-.293-.707l-5-5zM13 17h-2v-2h2v2zm0-4h-2V7h2v6z" />
-                            </svg>
-                            <div id="tooltip-laporan" role="tooltip"
-                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                Laporan
-                                <div class="tooltip-arrow" data-popper-arrow></div>
-                            </div>
-                        </a>
-                    </div>
-                </li>
-                <li>
-                    <div class="container block" data-tooltip-target="tooltip-kelas" data-tooltip-placement="right">
-                        <a href="{{ route('kelas') }}"
-                            class="block items-center p-2 {{ Request::is('home') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                class="w-6 h-6 {{ Request::is('home') ? 'text-white' : 'text-gray-500' }}">
-                                <path fill-rule="evenodd"
-                                    d="M8.25 6.75a3.75 3.75 0 117.5 0 3.75 3.75 0 01-7.5 0zM15.75 9.75a3 3 0 116 0 3 3 0 01-6 0zM2.25 9.75a3 3 0 116 0 3 3 0 01-6 0zM6.31 15.117A6.745 6.745 0 0112 12a6.745 6.745 0 016.709 7.498.75.75 0 01-.372.568A12.696 12.696 0 0112 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 01-.372-.568 6.787 6.787 0 011.019-4.38z"
-                                    clip-rule="evenodd" />
-                                <path
-                                    d="M5.082 14.254a8.287 8.287 0 00-1.308 5.135 9.687 9.687 0 01-1.764-.44l-.115-.04a.563.563 0 01-.373-.487l-.01-.121a3.75 3.75 0 013.57-4.047zM20.226 19.389a8.287 8.287 0 00-1.308-5.135 3.75 3.75 0 013.57 4.047l-.01.121a.563.563 0 01-.373.486l-.115.04c-.567.2-1.156.349-1.764.441z" />
-                            </svg>
-                            <div id="tooltip-kelas" role="tooltip"
-                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                <span class="overflow-auto">Kelas</span>
-                                <div class="tooltip-arrow" data-popper-arrow></div>
-                            </div>
-                        </a>
-                    </div>
-                </li>
-                <li>
-                    <div class="container block" data-tooltip-target="tooltip-jadwal" data-tooltip-placement="right">
-                        <a href="{{ route('jadwal_mengajar') }}"
-                            class="block items-center p-2 {{ Request::is('home') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                class="w-5 h-5 text-gray-500">
-                                <path
-                                    d="M12.75 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM7.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM8.25 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM9.75 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM10.5 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12.75 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM14.25 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 13.5a.75.75 0 100-1.5.75.75 0 000 1.5z" />
-                                <path fill-rule="evenodd"
-                                    d="M6.75 2.25A.75.75 0 017.5 3v1.5h9V3A.75.75 0 0118 3v1.5h.75a3 3 0 013 3v11.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V7.5a3 3 0 013-3H6V3a.75.75 0 01.75-.75zm13.5 9a1.5 1.5 0 00-1.5-1.5H5.25a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5v-7.5z"
-                                    clip-rule="evenodd" />
-                            </svg>
 
-                            <div id="tooltip-jadwal" role="tooltip"
-                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                Jadwal
-                                <div class="tooltip-arrow" data-popper-arrow></div>
-                            </div>
-                        </a>
-                    </div>
-                </li>
 
-                <li>
-                    <div class="container block" data-tooltip-target="tooltip-jam" data-tooltip-placement="right">
-                        <a href="{{ route('capaian_jam') }}"
-                            class="block items-center p-2 {{ Request::is('home') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                class="w-5 h-5 text-gray-500">
-                                <path fill-rule="evenodd"
-                                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z"
-                                    clip-rule="evenodd" />
-                            </svg>
 
-                            <div id="tooltip-jam" role="tooltip"
-                                class="absolute text-clip z-10 invisible inline px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">
-                                Jam_Pelajaran
-                                <div class="tooltip-arrow" data-popper-arrow></div>
-                            </div>
-                        </a>
-                    </div>
-                </li>
-                <li>
-                    <div class="container block" data-tooltip-target="tooltip-sekolah"
-                        data-tooltip-placement="right">
-                        <a href="{{ route('sekolah') }}"
-                            class="block items-center p-2 {{ Request::is('home') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 ">
-                                <path
-                                    d="M11.7 2.805a.75.75 0 01.6 0A60.65 60.65 0 0122.83 8.72a.75.75 0 01-.231 1.337 49.949 49.949 0 00-9.902 3.912l-.003.002-.34.18a.75.75 0 01-.707 0A50.009 50.009 0 007.5 12.174v-.224c0-.131.067-.248.172-.311a54.614 54.614 0 014.653-2.52.75.75 0 00-.65-1.352 56.129 56.129 0 00-4.78 2.589 1.858 1.858 0 00-.859 1.228 49.803 49.803 0 00-4.634-1.527.75.75 0 01-.231-1.337A60.653 60.653 0 0111.7 2.805z" />
-                                <path
-                                    d="M13.06 15.473a48.45 48.45 0 017.666-3.282c.134 1.414.22 2.843.255 4.285a.75.75 0 01-.46.71 47.878 47.878 0 00-8.105 4.342.75.75 0 01-.832 0 47.877 47.877 0 00-8.104-4.342.75.75 0 01-.461-.71c.035-1.442.121-2.87.255-4.286A48.4 48.4 0 016 13.18v1.27a1.5 1.5 0 00-.14 2.508c-.09.38-.222.753-.397 1.11.452.213.901.434 1.346.661a6.729 6.729 0 00.551-1.608 1.5 1.5 0 00.14-2.67v-.645a48.549 48.549 0 013.44 1.668 2.25 2.25 0 002.12 0z" />
-                                <path
-                                    d="M4.462 19.462c.42-.419.753-.89 1-1.394.453.213.902.434 1.347.661a6.743 6.743 0 01-1.286 1.794.75.75 0 11-1.06-1.06z" />
-                            </svg>
-                            <div id="tooltip-sekolah" role="tooltip"
-                                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                Sekolah
-                                <div class="tooltip-arrow" data-popper-arrow></div>
-                            </div>
-                        </a>
-                    </div>
-                </li>
+
+
+
 
             </ul>
         </div>
@@ -262,8 +136,7 @@
     <div id="toast-alert"
         class="fixed flex items-center invisible w-full max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x divide-gray-200 rounded-lg shadow bottom-5 right-5 dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800"
         role="alert">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-            class="w-5 h-5 text-green-500">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-green-500">
             <path fill-rule="evenodd"
                 d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
                 clip-rule="evenodd" />

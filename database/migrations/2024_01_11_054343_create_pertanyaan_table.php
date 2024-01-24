@@ -10,13 +10,12 @@ return new class() extends Migration {
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+        Schema::create('pertanyaan', function (Blueprint $table) {
+            $table->id('id_pertanyaan');
+            $table->string('content_soal', 255);
+            $table->integer('skor');
+            $table->unsignedBigInteger('id_kuis');
+            $table->foreign('id_kuis')->references('id_kuis')->on('kuis')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class() extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('pertanyaan');
     }
 };

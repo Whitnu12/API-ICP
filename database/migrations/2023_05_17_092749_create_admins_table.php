@@ -1,32 +1,30 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Admin;
 
-return new class extends Migration
-{
+return new class() extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
+        $user = new User([
+            'name' => 'Nama Anda', // Ganti dengan nama yang sesuai
+            'email' => 'admin@gmail.com', // Ganti dengan email yang sesuai
+            'password' => bcrypt('mantap123'), // Ganti dengan password yang sesuai
+        ]);
+        $user->save();
+
         Schema::create('admins', function (Blueprint $table) {
-            $table->id();
-            $table->string('npp')->unique();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('nama');
+            $table->id('id_admin');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('nip_admin')->unique();
             $table->timestamps();
         });
-
-        $admin = new Admin;
-        $admin->nama = 'admin';
-        $admin->npp = '00000001';
-        $admin->email = 'admin@gmail.com';
-        $admin->password = bcrypt('admin'); // Ganti 'password' dengan password yang diinginkan
-        $admin->save();
     }
 
     /**

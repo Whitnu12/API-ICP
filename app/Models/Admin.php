@@ -14,7 +14,7 @@ class Admin extends Authenticatable
     protected $guard = 'admin';
 
     protected $fillable = [
-        'npp', 'email', 'password', 'nama'
+        'nip_adm'
     ];
 
     protected $hidden = [

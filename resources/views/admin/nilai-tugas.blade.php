@@ -1,47 +1,43 @@
-<head>
-    @vite(['resources/js/mapel.js'])
-</head>
 @extends('layout.admin_layout')
 @section('content')
-    <div class=" flex gap-5 justify-between">
+    <div class="mb-4">
+        <h1 class="text-xl font-bold ">Pengembangan Sosial</h1>
+        <h3 class="text-l text-gray-600 ">Tugas 1</h3>
+    </div>
+    <div class=" flex gap-5">
         <div>
             <table id="mataPelajaranTable" class=" text-sm text-center text-gray-500">
                 <thead class="text-s text-gray-700 uppercase bg-gray-50">
                     <tr>
                         <th class="tableCellid py-2">No</th>
                         {{-- <th class="tableCellid">id</th> --}}
-                        <th class="tableCellMapel px-40 ">Nama Mapel</th>
-                        <th class="tableCellid px-40 ">Guru</th>
+                        <th class="tableCellMapel px-40 ">NIS </th>
+                        <th class="tableCellid px-40 ">Nama Siswa</th>
                         {{-- <th class="tableCellid">Kelas</th> --}}
-                        <th class="tableCellAction px-10">Jumlah Siswa</th>
+                        <th class="tableCellAction px-10">Nilai Siswa</th>
                     </tr>
                 </thead>
                 <tbody id="mataPelajaranTableBody">
                     <!-- Data mata pelajaran akan ditambahkan di sini -->
                     <tr class="hover:bg-gray-100 bg-grey-100 ">
                         <td class="tableCellMapel ">1</td>
-                        <td class="tableCellMapel">IPAS - X TKJ 1</td>
-                        <td class="tableCellMapel">Feriyati,S.Pd</td>
-                        <td class="tableCellMapel">40</td>
+                        <td class="tableCellMapel">17415</td>
+                        <td class="tableCellMapel">Adimas</td>
+                        <td class="tableCellMapel">80</td>
                     </tr>
                     <tr class="hover:bg-gray-100 bg-grey-100 ">
                         <td class="tableCellMapel ">2</td>
-                        <td class="tableCellMapel">IPAS - XI TKJ 1</td>
-                        <td class="tableCellMapel">Feriyati,S.Pd</td>
-                        <td class="tableCellMapel">36</td>
+                        <td class="tableCellMapel">17416</td>
+                        <td class="tableCellMapel">AIS ANGGRIANI</td>
+                        <td class="tableCellMapel">76</td>
                     </tr>
                     <tr class="hover:bg-gray-100 bg-grey-100 ">
                         <td class="tableCellMapel ">3</td>
-                        <td class="tableCellMapel">IPAS - XII TKJ 1</td>
-                        <td class="tableCellMapel">Feriyati,S.Pd</td>
-                        <td class="tableCellMapel">41</td>
+                        <td class="tableCellMapel">17417</td>
+                        <td class="tableCellMapel">AL FARIJA</td>
+                        <td class="tableCellMapel">77</td>
                     </tr>
-                    <tr class="hover:bg-gray-100 bg-grey-100 ">
-                        <td class="tableCellMapel ">4</td>
-                        <td class="tableCellMapel">Matematika - X TKJ 1</td>
-                        <td class="tableCellMapel">Junari,S.Pd</td>
-                        <td class="tableCellMapel">38</td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
