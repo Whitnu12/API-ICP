@@ -15,8 +15,25 @@ class tugasController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function tambahTugas(Request $request)
     {
+        // Validasi input
+        $request->validate([
+            'nama_tugas' => 'required|unique:tugas',
+            'deskripsi_tugas' => 'required',
+            'deadline_tugas' => 'required|date',
+        ]);
+
+        // Simpan tugas ke database
+        $tugas = new Tugas();
+        $tugas->nama_tugas = $request->input('nama_tugas');
+        $tugas->deskripsi_tugas = $request->input('deskripsi_tugas');
+        $tugas->deadline_tugas = $request->input('deadline_tugas');
+        $tugas->id_mapel = 1; // Ganti dengan id_mapel yang diinginkan (1 adalah contoh)
+        $tugas->save();
+
+        // Beri response JSON sukses
+        return response()->json(['message' => 'Tugas berhasil ditambahkan'], 201);
     }
 
     /**

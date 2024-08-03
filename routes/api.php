@@ -66,10 +66,10 @@ Route::prefix('mata-pelajaran')->group(function () {
 });
 
 // jurusan
-Route::prefix('jurusan')->group(function () {
-    Route::get('/', [JurusanController::class, 'tampil_jurusan']);
+Route::prefix('tugas')->group(function () {
+    Route::get('/', [tugasController::class, 'tampil_jurusan']);
     Route::get('/{id}', [JurusanController::class, 'cari_jurusan']);
-    Route::post('/', [JurusanController::class, 'tambah_jurusan']);
+    Route::post('/', [tugasController::class, 'tambahTugas']);
     Route::put('/{id}', [JurusanController::class, 'rubah_jurusan']);
     Route::delete('/{id}', [JurusanController::class, 'hapus_jurusan']);
 });
